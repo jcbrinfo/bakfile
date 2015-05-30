@@ -191,13 +191,13 @@ Note: The images MUST be built before doing this.
    ```
    sudo docker pause file_server_rsync && \
    sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm \
-   	--volumes-from=file_server_data file_server_duplicity \
-   	--full-if-older-than 1M --encrypt-sign-key ABCD1234 /home \
-   	copy:user@example.com/home-backup && \
+       --volumes-from=file_server_data file_server_duplicity \
+       --full-if-older-than 1M --encrypt-sign-key ABCD1234 --progress /home \
+       copy://user@example.com@copy.com/home-backup && \
    sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm \
-   	--volumes-from=file_server_data file_server_duplicity \
-   	remove-all-but-n-full 2 --force --encrypt-sign-key ABCD1234 \
-   	copy://user@example.com@copy.com/home-backup`
+       --volumes-from=file_server_data file_server_duplicity \
+       remove-all-but-n-full 2 --force --encrypt-sign-key ABCD1234 \
+       copy://user@example.com@copy.com/home-backup`
    ```
 
 When backuping the GnuPG data, only the following files are important:
