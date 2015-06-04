@@ -114,7 +114,7 @@ Note: `PORT` is the port the users will use to connect to your server.
    to connections from a specified subnet.
 
 4. Add a `LIMIT` rule for PORT (TCP). This will limit the rate of the
-   connections that came from a same IP address.
+   connections that come from a same IP address.
 
 
 ## How to build the images
