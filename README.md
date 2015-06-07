@@ -237,7 +237,7 @@ If you want to add or remove users while keeping data held by
    information, see documentation of the `--numeric-owner` option of GNU Tar and
    [http://serverfault.com/a/445504](http://serverfault.com/a/445504). This
    means you should not change existing names and IDs. If you do and `tar` does
-   not restore ownership correctly, see the “How to change owners in batch”
+   not restore ownership correctly, see the “How to change ownership in batch”
    subsection bellow.
 
    **Note:** Whenever possible, you should avoid re-using the names or UIDs of
@@ -281,10 +281,13 @@ If you want to add or remove users while keeping data held by
     `bak/`.
 
 
-### How to change owners in batch
+### How to change ownership in batch
 
 If someday you need to transfer ownership of all files that belong to an user to
 another, here is a way to do it:
+
+**WARNING:** Some files in `/home` come from the `file_server_users` image. You
+should not edit the ownership of these files.
 
 1. Follow the procedure described in the “How to open a shell in the `/home`
    volume” section.
@@ -292,7 +295,8 @@ another, here is a way to do it:
 2. Run `chown -R --from={oldOwner}:{oldGroup} {newOwner}:{newGroup} {files…}`,
    replacing `{oldOwner}`, `{ordGroup}`, `{newOwner}` and `{newGroup}` by the
    the current owner, the current group, the new owner and the new group,
-   respectively. For details, see `man chown`.
+   respectively. `chown` automatically excludes files that do not have the
+   ownership specified with the `--from` option. For details, see `man chown`.
 
 If you need to swap the ownership between two users, you can create a temporary
 user using `adduser` before running `chown`.
