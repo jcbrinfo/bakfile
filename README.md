@@ -104,7 +104,7 @@ restrict the incomming connections.
 
 ### How to setup ufw/gufw
 
-Note: `PORT` is the port the users will use to connect to your server.
+**Note:** `PORT` is the port the users will use to connect to your server.
 
 1. If not already done, enable the firewall.
 
@@ -130,7 +130,7 @@ Note: `PORT` is the port the users will use to connect to your server.
 
 ## How to create the data volume container
 
-Note: The images MUST be built before doing this.
+**Note:** The images **MUST** be built before doing this.
 
 Most scripts that create a container assumes that the `file_server_data`
 container hold the data volume. Use `make run-data` to create it.
@@ -166,9 +166,9 @@ Note: The images MUST be built before doing this.
 In the following instructions, `{hostBackupMeta}` refers to the directory in the
 host where to put Duplicity’s cache and GnuPG data.
 
-Note: Duplicity uses GnuPG to encrypt backups.
+**Note:** Duplicity uses GnuPG to encrypt backups.
 
-Note: The images MUST be built before doing this.
+**Note:** The images **MUST** be built before doing this.
 
 1. Ensure that `{hostBackupMeta}` contains at least a `duplicity-cache` (for
    Duplicity’s cache) and a `gnupg` (for GnuPG data) subdirectory. For each
@@ -179,7 +179,7 @@ Note: The images MUST be built before doing this.
 2. If not already done, generate an encryption key by running
    `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm file_server_gpg --gen-key`.
 
-   Note: If you forget the ID of the generated key, you may look for it by
+   **Note:** If you forget the ID of the generated key, you may look for it by
    running
    `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm file_server_gpg --list-keys`.
 
@@ -215,7 +215,7 @@ For details, see `man gpg`.
 
 ## How to open a shell in the `/home` volume
 
-Note: The images MUST be built before doing this.
+**Note:** The images **MUST** be built before doing this.
 
 1. If not already done, create the `file_server_data` container.
    See “How to create the data volume container”.
@@ -231,17 +231,17 @@ If you want to add or remove users while keeping data held by
 1. Edit the `settings/ssh-users` file to reflect the desired user list and UIDs.
    For details, see the “Files” section.
 
-   Note: During the following steps, `tar` will be used to export and reimport
-   the `/home` volume. To restore ownership, it will try to match user and group
-   names first, and fallback using the saved UID and GID. For more information,
-   see documentation of the `--numeric-owner` option of GNU Tar and
+   **Note:** During the following steps, `tar` will be used to export and
+   reimport the `/home` volume. To restore ownership, it will try to match user
+   and group names first, and fallback using the saved UID and GID. For more
+   information, see documentation of the `--numeric-owner` option of GNU Tar and
    [http://serverfault.com/a/445504](http://serverfault.com/a/445504). This
    means you should not change existing names and IDs. If you do and `tar` does
    not restore ownership correctly, see the “How to change owners in batch”
    subsection bellow.
 
-   Note: Whenever possible, you should avoid re-using the names or UIDs of the
-   deleted users. Better be safe than sorry. :)
+   **Note:** Whenever possible, you should avoid re-using the names or UIDs of
+   the deleted users. Better be safe than sorry. :)
 
 2. Ensure that the `settings/ssh-auth-keys` directory contains the
    authentification keys of the desired users and does not contain any file
@@ -260,10 +260,10 @@ If you want to add or remove users while keeping data held by
 
 6. Remove the old containers. You may use `make clean-ps` to do this.
 
-   WARNING: This will delete the `/home` volume. So, again, you should be sure
-   that you did the previous step correctly before doing this.
+   **WARNING:** This will delete the `/home` volume. So, again, you should be
+   sure that you did the previous step correctly before doing this.
 
-   Note: `make clean-ps` may return `Error response from daemon: no such id`
+   **Note:** `make clean-ps` may return `Error response from daemon: no such id`
    errors. It simply means that a container in the list does not exists.
    It is not really a failure (even if `make` tell the oposite).
 
@@ -289,7 +289,7 @@ another, here is a way to do it:
 1. Follow the procedure described in the “How to open a shell in the `/home`
    volume” section.
 
-2. Run `chown -R --from={oldOwner}:{oldGroup} {newOwner}:{newGroup} *`,
+2. Run `chown -R --from={oldOwner}:{oldGroup} {newOwner}:{newGroup} {files…}`,
    replacing `{oldOwner}`, `{ordGroup}`, `{newOwner}` and `{newGroup}` by the
    the current owner, the current group, the new owner and the new group,
    respectively. For details, see `man chown`.
