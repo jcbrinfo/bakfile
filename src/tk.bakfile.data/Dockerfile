@@ -1,6 +1,6 @@
 # Image for the data volume container.
 
-FROM file_server_users
+FROM tk.bakfile.users
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
 COPY root /root/

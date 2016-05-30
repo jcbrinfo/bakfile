@@ -37,14 +37,14 @@ Note: Duplicity uses GnuPG to encrypt backups.
   `{UID}:{userName}`. Example: `1025:somebody`. The UID should be between 1025
   and 29999. Empty lines are ignored.
 
-  Note: IDs between 1000 and 1024 is reserved for use by scripts in this
+  Note: IDs between 1000 and 1024 are reserved for use by scripts in this
   project.
 
-* `settings/ssh-auth-keys/`: The initial SSH authentification keys of the users.
+* `settings/ssh-auth-keys/`: The initial SSH authentication keys of the users.
   For each user, this directory must contain a file with the name of the user
   and with the content of the wanted `~/.ssh/authorized_keys` file.
 
-* `settings/sshd_config`: Used by `file_server_rsync` as the
+* `settings/sshd_config`: Used by `tk.bakfile.rsync` as the
   `/etc/ssh/sshd_config` configuration file. If the default
   `/etc/ssh/sshd_config` file has changed since the version(s) specified in the
   file, you may need to update some settings.
@@ -59,31 +59,32 @@ Note: Duplicity uses GnuPG to encrypt backups.
 
 ## Docker images
 
-* `file_server_users`: Base image for the other images. Creates the
+* `tk.bakfile.users`: Base image for the other images. Creates the
   `rsync-users`  group and the users. Any image using the data of the file
    server must inherit of this service so UIDs and GIDs will be correctly set.
 
-* `file_server_data`: Image for the data volume container. Defines the `/home`
-  volume. The `Dokerfile` automatically populate the `.ssh` directory of the
-  users. Any container using the data of the file server must be run with the
-  `--volumes-from file_server_data` option.
+* `tk.bakfile.data`: Image for the data volume container. Defines
+  the `/home` volume. The `Dokerfile` automatically populate the `.ssh`
+  directory of the users. Any container using the data of the file server must
+  be run with the `--volumes-from tk.bakfile.data` option.
 
-* `file_server_rsync`: Installs an OpenSSH server with rsync. The entry point
+* `tk.bakfile.rsync`: Installs an OpenSSH server with rsync. The entry point
   is the command of the SSH deamon. Exposes the SSH server at port 22.
 
-* `file_server_duplicity`: Installs Duplicity and set it as the entry point.
+* `tk.bakfile.duplicity`: Installs Duplicity and set it as the entry point.
 
-* `file_server_gpg`: Same as `file_server_duplicity`, but with GnuPG as the
-  entry point. Useful to manage the encryption keys for the backups.
+* `tk.bakfile`: Same as `tk.bakfile.duplicity`, but with GnuPG as the entry
+  point. Useful to manage the encryption keys for the backups.
 
-Note: The entry points of both `file_server_duplicity` and `file_server_gpg`
-includes arguments to use `/root/.backup-meta` for the keys and caches.
+Note: The entry points of both `tk.bakfile.duplicity` and
+`tk.bakfile.gpg` includes arguments to use `/root/.backup-meta` for the
+keys and caches.
 
 
 ## Volumes
 
-* `/home`: User’s files, including authentification keys (as usual). Defined
-  by `file_server_data`.
+* `/home`: User’s files, including authentication keys (as usual). Defined
+  by `tk.bakfile.data`.
 
 * `/root/.backup-meta`: Files for the backup tools (like Duplicity). Mapped to
   an host’s directory while following the instructions in the “How to launch a
@@ -132,7 +133,7 @@ restrict the incomming connections.
 
 **Note:** The images **MUST** be built before doing this.
 
-Most scripts that create a container assumes that the `file_server_data`
+Most scripts that create a container assumes that the `tk.bakfile.data`
 container hold the data volume. Use `make run-data` to create it.
 
 
@@ -140,21 +141,21 @@ container hold the data volume. Use `make run-data` to create it.
 
 Note: The images MUST be built before doing this.
 
-1. If not already done, create the `file_server_data` container.
+1. If not already done, create the `tk.bakfile.data` container.
    See “How to create the data volume container”.
 
 2. Run `make test-rsync`. Alternatively, you can run
-   `sudo docker run --rm --volume-from=file_server_data file_server_rsync -t`.
+   `sudo docker run --rm --volume-from=tk.bakfile.data tk.bakfile.rsync -t`.
 
 
 ## How to start the rsync/ssh server
 
 Note: The images MUST be built before doing this.
 
-1. If not already done, create the `file_server_data` container.
+1. If not already done, create the `tk.bakfile.data` container.
    See “How to create the data volume container”.
 
-2. Run `sudo docker run -d -p {hostPort}:22 --volume-from=file_server_data file_server_rsync`,
+2. Run `sudo docker run -d -p {hostPort}:22 --volume-from=tk.bakfile.data tk.bakfile.rsync`,
    replacing `{hostPort}` by the port on the host that will be used to connect
    to the server. When possible, you should not use well-known port in order to
    limit the number of connections from software that look for vulnerable
@@ -177,25 +178,25 @@ host where to put Duplicity’s cache and GnuPG data.
    owner has rights”) as the permissions.
 
 2. If not already done, generate an encryption key by running
-   `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm file_server_gpg --gen-key`.
+   `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm tk.bakfile.gpg --gen-key`.
 
    **Note:** If you forget the ID of the generated key, you may look for it by
    running
-   `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm file_server_gpg --list-keys`.
+   `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm tk.bakfile.gpg --list-keys`.
 
-3. Run `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm --volumes-from=file_server_data file_server_duplicity {args...}`,
+3. Run `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm --volumes-from=tk.bakfile.data tk.bakfile.duplicity {args...}`,
    replacing `{args...}` by the arguments to pass to the `duplicity` command.
 
    Example:
 
    ```
-   sudo docker pause file_server_rsync && \
+   sudo docker pause tk.bakfile.rsync && \
    sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm \
-       --volumes-from=file_server_data file_server_duplicity \
+       --volumes-from=tk.bakfile.data tk.bakfile.duplicity \
        --full-if-older-than 1M --encrypt-sign-key ABCD1234 --progress /home \
        copy://user@example.com@copy.com/home-backup && \
    sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm \
-       --volumes-from=file_server_data file_server_duplicity \
+       --volumes-from=tk.bakfile.data tk.bakfile.duplicity \
        remove-all-but-n-full 2 --force --encrypt-sign-key ABCD1234 \
        copy://user@example.com@copy.com/home-backup
    ```
@@ -217,7 +218,7 @@ For details, see `man gpg`.
 
 **Note:** The images **MUST** be built before doing this.
 
-1. If not already done, create the `file_server_data` container.
+1. If not already done, create the `tk.bakfile.data` container.
    See “How to create the data volume container”.
 
 2. Run `make debug-data`.
@@ -226,7 +227,7 @@ For details, see `man gpg`.
 ## How to upgrade the user list
 
 If you want to add or remove users while keeping data held by
-`file_server_data`, do the following:
+`tk.bakfile.data`, do the following:
 
 1. Edit the `settings/ssh-users` file to reflect the desired user list and UIDs.
    For details, see the “Files” section.
@@ -244,15 +245,15 @@ If you want to add or remove users while keeping data held by
    the deleted users. Better be safe than sorry. :)
 
 2. Ensure that the `settings/ssh-auth-keys` directory contains the
-   authentification keys of the desired users and does not contain any file
+   authentication keys of the desired users and does not contain any file
    associated to the users that will be removed. For details, see the “Files”
    section.
 
 3. Stop (but do not remove yet) any container using the volume of
-   `file_server_data`.
+   `tk.bakfile.data`.
 
 4. For each user to remove, delete its “home” directory from `/home` by using
-   the `file_server_data`’s shell. For details, see the “How to open a shell in
+   the `tk.bakfile.data`’s shell. For details, see the “How to open a shell in
    the `/home` volume” section.
 
 5. Run `make export`. This makes a GNU TAR for each volume and puts them in
@@ -265,14 +266,14 @@ If you want to add or remove users while keeping data held by
 
    **Note:** `make clean-ps` may return `Error response from daemon: no such id`
    errors. It simply means that a container in the list does not exists.
-   It is not really a failure (even if `make` tell the oposite).
+   It is not really a failure (even if `make` tell the opposite).
 
 7. Run `make && make run-data`.
 
-8. Run `make import`. This creates the `file_server_data` container (like
+8. Run `make import`. This creates the `tk.bakfile.data` container (like
    with `make run-data`) and imports the content of the archives in `bak/`.
 
-9. Check ownership of the imported files  by using the `file_server_data`’s
+9. Check ownership of the imported files  by using the `tk.bakfile.data`’s
    shell. For details, see the “How to open a shell in the `/home` volume”
    section. If you get files associated to the wrong user, see the “How to
    change owners in batch” subsection bellow.
@@ -286,7 +287,7 @@ If you want to add or remove users while keeping data held by
 If someday you need to transfer ownership of all files that belong to an user to
 another, here is a way to do it:
 
-**WARNING:** Some files in `/home` come from the `file_server_users` image. You
+**WARNING:** Some files in `/home` come from the `tk.bakfile.users` image. You
 should not edit the ownership of these files.
 
 1. Follow the procedure described in the “How to open a shell in the `/home`

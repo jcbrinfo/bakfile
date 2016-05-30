@@ -1,11 +1,11 @@
 # See `README` and below.
 
 # The name of Docker images, in order they have to be generated.
-IMAGES=file_server_users file_server_data file_server_rsync file_server_duplicity file_server_gpg
+IMAGES=tk.bakfile.users tk.bakfile.data tk.bakfile.rsync tk.bakfile.duplicity tk.bakfile.gpg
 
-USERS_IMAGE=file_server_users
-DATA_IMAGE=file_server_data
-RSYNC_IMAGE=file_server_rsync
+USERS_IMAGE=tk.bakfile.users
+DATA_IMAGE=tk.bakfile.data
+RSYNC_IMAGE=tk.bakfile.rsync
 
 # Name of the archive in `bak/` (`export` and `import`).
 VOLUME_TAR=volumes.tar
@@ -60,17 +60,17 @@ clean:
 clean-ps:
 	$(DOCKER) rm -v $(IMAGES)
 
-# Creates a container for `file_server_data`.
+# Creates a container for `tk.bakfile.data`.
 .PHONY: run-data
 run-data:
 	$(DOCKER) run --name="${DATA_IMAGE}" "${DATA_IMAGE}"
 
-# Runs `bash` in the `file_server_data` image.
+# Runs `bash` in the `tk.bakfile.data` image.
 .PHONY: debug-data
 debug-data:
 	$(DOCKER) run -ti -w /home --rm --volumes-from="${DATA_IMAGE}" "${DATA_IMAGE}" /bin/bash
 
-# Runs `sshd -t` in the `file_server_rsync` image.
+# Runs `sshd -t` in the `tk.bakfile.rsync` image.
 .PHONY: test-rsync
 test-rsync:
 	$(DOCKER) run --rm --volumes-from="${DATA_IMAGE}" "${RSYNC_IMAGE}" -t
@@ -88,7 +88,7 @@ export:
 
 # Imports `/home` from `bak/volumes.tar`.
 #
-# Assumes that the `file_server_data` container exists.
+# Assumes that the `tk.bakfile.data` container exists.
 #
 # WARNING: This overwrite files without asking.
 #
