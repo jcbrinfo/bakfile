@@ -92,8 +92,10 @@ keys and caches.
 
 ## If you do not use `sudo`
 
-If you do not want to use `sudo`, Remove `sudo` from the `DOCKER` variable in
-the `Makefile`. You will need the root privileges for most targets.
+If you do not want to use `sudo`, specify `DOCKER=docker` when you run `make`.
+For example, run `make DOCKER=docker something` instead of `make something`.
+
+**Note:** You will need the root privileges for most targets.
 
 
 ## Setup a firewall
