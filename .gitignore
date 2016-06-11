@@ -1,4 +1,3 @@
 /bak
-/contexts
-/settings/rsync-users
-/settings/ssh-auth-keys
+/src/tk.bakfile.users/root/rsync-users
+/src/tk.bakfile.users/root/ssh-auth-keys

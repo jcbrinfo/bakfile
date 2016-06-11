@@ -22,32 +22,22 @@ DOCKER=sudo docker
 
 # Builds the Docker images.
 .PHONY: images
-images: contexts
-	for i in $(IMAGES); do echo; echo "$$i:"; $(DOCKER) build -t "$$i" "contexts/$$i" || exit; done
+images:
+	for i in $(IMAGES); do echo; echo "$$i:"; $(DOCKER) build -t "$$i" "src/$$i" || exit; done
 
-# Builds the Docker build contexts.
-.PHONY: contexts
-contexts:
-	mkdir -p contexts && \
-	cp -rT src contexts && \
-	cp -T settings/rsync-users "contexts/${USERS_IMAGE}/root/rsync-users" && \
-	cp -rT settings/ssh-auth-keys "contexts/${USERS_IMAGE}/root/ssh-auth-keys" && \
-	cp settings/sshd_config "contexts/${RSYNC_IMAGE}/sshd_config"
-
-# Deletes `contexts` and remove files in `user-keys` and `bak`.
-.PHONY: distclean
-distclean: clean clean-bak
-	rm -f user-keys/*
+# Remove user list, default users’ keys and `bak`.
+.PHONY: distclean mostlyclean maintainer-clean
+distclean mostlyclean maintainer-clean: clean clean-bak
+	rm -rf src/${USERS_IMAGE}/root/ssh-auth-keys src/${USERS_IMAGE}/root/rsync-users
 
 # Removes the files in `bak`.
 .PHONY: clean-bak
 clean-bak:
 	rm -f bak/*
 
-# Deletes `contexts`.
 .PHONY: clean
 clean:
-	rm -rf contexts
+	# No generated files.
 
 
 # Deletes any stopped container (volumes included) that has the same name than
