@@ -101,7 +101,7 @@ For example, run `make DOCKER=docker something` instead of `make something`.
 ## Setup a firewall
 
 Before running the rsync/ssh server, you should setup a firewall on the host to
-restrict the incomming connections.
+restrict the incoming connections.
 
 
 ### How to setup ufw/gufw
@@ -110,7 +110,7 @@ restrict the incomming connections.
 
 1. If not already done, enable the firewall.
 
-2. Ensure that incomming connections are denied by default.
+2. Ensure that incoming connections are denied by default.
 
 3. Add a rule to allow connections at PORT (TCP). If possible, restrict the rule
    to connections from a specified subnet.
