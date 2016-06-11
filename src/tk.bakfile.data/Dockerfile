@@ -3,8 +3,6 @@
 FROM tk.bakfile.users
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
-COPY root /root/
-
 RUN mkdir -p -m 700 /root/.backup-meta \
 		/root/.backup-meta/gnupg \
 		/root/.backup-meta/duplicity-cache \

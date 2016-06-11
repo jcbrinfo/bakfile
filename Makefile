@@ -31,7 +31,7 @@ contexts:
 	mkdir -p contexts && \
 	cp -rT src contexts && \
 	cp -T settings/rsync-users "contexts/${USERS_IMAGE}/root/rsync-users" && \
-	cp -rT settings/ssh-auth-keys "contexts/${DATA_IMAGE}/root/ssh-auth-keys" && \
+	cp -rT settings/ssh-auth-keys "contexts/${USERS_IMAGE}/root/ssh-auth-keys" && \
 	cp settings/sshd_config "contexts/${RSYNC_IMAGE}/sshd_config"
 
 # Deletes `contexts` and remove files in `user-keys` and `bak`.
