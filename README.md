@@ -72,7 +72,7 @@ Note: Duplicity uses GnuPG to encrypt backups.
 
 * `tk.bakfile.duplicity`: Installs Duplicity and set it as the entry point.
 
-* `tk.bakfile`: Same as `tk.bakfile.duplicity`, but with GnuPG as the entry
+* `tk.bakfile.gpg`: Same as `tk.bakfile.duplicity`, but with GnuPG as the entry
   point. Useful to manage the encryption keys for the backups.
 
 Note: The entry points of both `tk.bakfile.duplicity` and
