@@ -126,7 +126,7 @@ restrict the incoming connections.
 
 2. Run `make`.
 
-3. Once done, run `make clean` or `make distclean`. For details, see the
+3. Once done, you may want to run `make distclean`. For details, see the
    `Makefile`.
 
 
