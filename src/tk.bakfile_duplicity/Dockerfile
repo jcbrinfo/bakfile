@@ -1,6 +1,6 @@
 # The Docker image for Duplicity.
 
-FROM tk.bakfile.users
+FROM tk.bakfile_users
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
 # Install Duplicity, version >= 0.7.

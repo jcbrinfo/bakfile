@@ -9,11 +9,11 @@ srcdir = ./src
 bakdir = ./bak
 
 # The name of Docker images, in the order they have to be generated.
-IMAGES = tk.bakfile.users tk.bakfile.data tk.bakfile.rsync tk.bakfile.duplicity tk.bakfile.gpg
+IMAGES = tk.bakfile_users tk.bakfile_data tk.bakfile_rsync tk.bakfile_duplicity tk.bakfile_gpg
 
-USERS_IMAGE = tk.bakfile.users
-DATA_IMAGE = tk.bakfile.data
-RSYNC_IMAGE = tk.bakfile.rsync
+USERS_IMAGE = tk.bakfile_users
+DATA_IMAGE = tk.bakfile_data
+RSYNC_IMAGE = tk.bakfile_rsync
 
 # Name of the archive in `bak/` (`export` and `import`).
 VOLUME_TAR = volumes.tar

@@ -2,7 +2,7 @@
 #
 # Useful to manage the encryption keys for the backups.
 
-FROM tk.bakfile.duplicity
+FROM tk.bakfile_duplicity
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
 ENTRYPOINT ["/usr/bin/gpg", "--homedir", "/root/.backup-meta/gnupg"]

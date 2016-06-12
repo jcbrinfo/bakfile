@@ -1,6 +1,6 @@
 # The rsync (SSH) server.
 
-FROM tk.bakfile.users
+FROM tk.bakfile_users
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
 # Install software.
