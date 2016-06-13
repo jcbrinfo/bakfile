@@ -29,27 +29,28 @@ Note: Duplicity uses GnuPG to encrypt backups.
 
 ## Files
 
-* `src/`: The Docker build contexts.
-
-* `src/tk.bakfile_users/root/rsync-users`: List of the SSH users. All lines must
-  be in the form `{UID}:{userName}`. Example: `1025:somebody`. The UID should be
-  between 1025 and 29999. Empty lines are ignored.
-
-  Note: IDs between 1000 and 1024 are reserved for use by scripts in this
-  project.
-
-* `src/tk.bakfile_users/root/ssh-auth-keys/`: The initial SSH authentication
-  keys of the users. For each user, this directory must contain a file with the
-  name of the user and with the content of the wanted `~/.ssh/authorized_keys`
-  file.
-
-* `src/tk.bakfile_rsync/sshd_config`: Used by `tk.bakfile_rsync` as the
-  `/etc/ssh/sshd_config` configuration file. If the default
-  `/etc/ssh/sshd_config` file has changed since the version(s) specified in the
-  file, you may need to update some settings.
-
-* `bak/`: Used for exportation/importation. See the `export` and `import`,
+* `bak/`: Used for exportation/importation. See the `export` and `import`
    targets of the `Makefile`.
+
+* `src/`: Docker build contexts.
+	* `tk.backfile_users/root`: Files copied in the `/root` directory of the
+	  image.
+
+		* `rsync-users`: List of the SSH users. All lines must be in the form
+		  `{UID}:{userName}`. Example: `1025:somebody`. The UID should be
+		  between 1025 and 29999. Empty lines are ignored.
+
+		  **Note:** IDs between 1000 and 1024 are reserved for use by scripts in
+		  this project.
+
+		* `ssh-auth-keys/`: The initial SSH authentication keys of the users.
+		  For each user, this directory must contain a file with the name of the
+		  user and with the content of the wanted `~/.ssh/authorized_keys` file.
+
+	* `tk.bakfile_rsync/sshd_config`: Used by `tk.bakfile_rsync` as the
+	  `/etc/ssh/sshd_config` configuration file. If the default
+	  `/etc/ssh/sshd_config` file has changed since the version(s) specified in
+	  the file, you may need to update some settings.
 
 * `Makefile`: Builds the contexts needed to build the Docker images.
 
