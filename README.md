@@ -229,8 +229,8 @@ For details, see `man gpg`.
 If you want to add or remove users while keeping data held by
 `tk.bakfile_data`, do the following:
 
-1. Edit the `settings/ssh-users` file to reflect the desired user list and UIDs.
-   For details, see the “Files” section.
+1. Edit the `src/tk.backfile_users/root/ssh-users` file to reflect the desired
+   user list and UIDs. For details, see the “Files” section.
 
    **Note:** During the following steps, `tar` will be used to export and
    reimport the `/home` volume. To restore ownership, it will try to match user
@@ -244,8 +244,8 @@ If you want to add or remove users while keeping data held by
    **Note:** Whenever possible, you should avoid re-using the names or UIDs of
    the deleted users. Better be safe than sorry. :)
 
-2. Ensure that the `settings/ssh-auth-keys` directory contains the
-   authentication keys of the desired users and does not contain any file
+2. Ensure that the `src/tk.backfile_users/root/ssh-auth-keys` directory contains
+   the authentication keys of the desired users and does not contain any file
    associated to the users that will be removed. For details, see the “Files”
    section.
 
