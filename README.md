@@ -4,7 +4,7 @@ This repository permits to build Docker images for a secure rsync server and
 related utilities. Users are authenticated using SSH public keys. The goal of
 this repository is to make the following tasks easier:
 
-* Setup a secure rsync server for a LAN.
+* Setup a secure rsync server for a [LAN](https://en.wikipedia.org/wiki/Local_area_network).
 * Upgrade the server or the user list whitout losing data.
 * Upload/download encrypted backups to/from the cloud (using Duplicity).
 * Manage encryption keys.
