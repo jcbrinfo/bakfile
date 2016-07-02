@@ -91,8 +91,8 @@ keys and caches.
 
 ## If you do not use `sudo`
 
-If you do not want to use `sudo`, specify `DOCKER=docker` when you run `make`.
-For example, run `make DOCKER=docker something` instead of `make something`.
+If you do not want to use `sudo`, specify `SUDO=` every time you run `make`.
+For example, run `make SUDO= something` instead of `make something`.
 
 **Note:** You will need the root privileges for most targets.
 

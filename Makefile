@@ -26,7 +26,8 @@ VOLUMES = /home
 # `import`).
 CONTAINER_BAK_DIRECTORY = /bak
 
-DOCKER = sudo docker
+SUDO = sudo
+DOCKER = $(SUDO) docker
 DOCKER_TAR = $(DOCKER) run --rm --volumes-from=$(DATA_IMAGE) --volume="$$(cd $(bakdir) && pwd)":$(CONTAINER_BAK_DIRECTORY) $(DATA_IMAGE) /bin/tar
 
 
