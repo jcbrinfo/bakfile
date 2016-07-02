@@ -1,7 +1,7 @@
 # Bakfile: A Private File Server
 
 This repository permits to build Docker images for a secure rsync server and
-related utilities. Users are authentified using SSH public keys. The goal of
+related utilities. Users are authenticated using SSH public keys. The goal of
 this repository is to make the following tasks easier:
 
 * Setup a secure rsync server for a LAN.
