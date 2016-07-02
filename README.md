@@ -106,16 +106,20 @@ restrict the incoming connections.
 
 ### How to setup ufw/gufw
 
-**Note:** The “host port” is the port the users will use to connect to your server.
+**Note:** The “host port” is the port the users will use to connect to your
+server.
 
 1. If not already done, enable the firewall.
 
 2. Ensure that incoming connections are denied by default.
 
-3. Add a rule to allow connections at the host port (TCP). If possible, restrict
-   the rule to connections from a specified subnet.
+3. Add a rule to allow incoming connections to the host port (TCP).
 
-4. Add a `LIMIT` rule for the host port (TCP). This will limit the rate of the
+4. If possible, restrict the rule to connections from a specific
+   [subnet](https://en.wikipedia.org/wiki/Subnetwork). This provides an
+   additional protection against connections coming from outside your LAN.
+
+5. Add a `LIMIT` rule for the host port (TCP). This will limit the rate of the
    connections that come from a same IP address.
 
 
