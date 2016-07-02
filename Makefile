@@ -1,7 +1,8 @@
 # See `README` and below.
 
-SHELL = /bin/sh
+.POSIX:
 .SUFFIXES:
+SHELL = /bin/sh
 
 srcdir = ./src
 
