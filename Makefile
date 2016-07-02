@@ -41,8 +41,8 @@ images install:
 	for i in $(IMAGES); do printf '\n%s\n' "$$i:"; $(DOCKER) build -t "$$i" "$(srcdir)/$$i" || exit; done
 
 # Remove `bak`, the user list and default users’ keys.
-.PHONY: distclean mostlyclean maintainer-clean
-distclean mostlyclean maintainer-clean: clean-bak clean-settings
+.PHONY: distclean maintainer-clean
+distclean maintainer-clean: clean clean-bak clean-settings
 
 # Remove the user list and default users’ keys.
 .PHONY: clean-settings
@@ -54,8 +54,8 @@ clean-settings:
 clean-bak:
 	rm -rf $(bakdir)
 
-.PHONY: clean
-clean:
+.PHONY: clean mostlyclean
+clean mostlyclean:
 	# This project does not contain generated files.
 
 # Remove `tk.bakfile.*` Docker images.
