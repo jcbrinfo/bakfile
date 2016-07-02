@@ -105,8 +105,9 @@ test-rsync:
 
 # Exports `/home` as `bak/volumes.tar`.
 .PHONY: export
-export: bak-directory
-	$(DOCKER_TAR) -cf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) --atime-preserve $(VOLUMES)
+export:
+	mkdir -p $(bakdir)
+	$(DOCKER_TAR) -cf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) --atime-preserve -- $(VOLUMES)
 
 # Imports `/home` from `bak/volumes.tar`.
 #
@@ -114,10 +115,6 @@ export: bak-directory
 #
 # WARNING: This overwrite files without asking.
 .PHONY: import
-import: bak-directory
-	$(DOCKER_TAR) -xpf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) -C / --atime-preserve --overwrite
-
-# Ensures the backup directory exists.
-.PHONY: bak-directory
-bak-directory:
+import:
 	mkdir -p $(bakdir)
+	$(DOCKER_TAR) -xpf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) -C / --atime-preserve --overwrite
