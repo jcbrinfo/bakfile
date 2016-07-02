@@ -130,8 +130,6 @@ server.
 
 2. Run `make`.
 
-3. Once done, you may want to run `make distclean`. For details, see the
-   `Makefile`.
 
 
 ## How to create the data volume container
@@ -306,6 +304,12 @@ should not edit the ownership of these files.
 
 If you need to swap the ownership between two users, you can create a temporary
 user using `adduser` before running `chown`.
+
+
+## How to clean the project directory
+
+To remove all your setting files and volume backups from the project directory,
+see the `*clean` and `clean-*` targets of the `Makefile`.
 
 
 ## TODO
