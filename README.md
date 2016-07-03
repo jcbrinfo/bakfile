@@ -8,14 +8,17 @@ this repository is to make the following tasks easier:
 * Upgrade the server or the user list whitout losing data.
 * Upload/download encrypted backups to/from the cloud (using Duplicity).
 * Manage encryption keys.
-* Sandbox everything in Linux containers (using Docker).
+* Sandbox everything inside Linux containers (using Docker Engine and Docker
+  Compose).
 
 
 ## Requirements
 
-* Docker
+* A POSIX system (Linux, OS X, Cygwin, Linux Subsystem for Windows…)
 
-* `make`
+* Docker Engine, version 1.10 or greater
+
+* Docker Compose, version 1.7 or greater
 
 * Enough space in Docker’s workspace (`/var/lib/docker` on Linux) to hold the
   server and its user’s files.
@@ -34,6 +37,9 @@ Note: Duplicity uses GnuPG to encrypt backups.
    targets of the `Makefile`.
 
 * `src/`: Docker build contexts.
+
+	* `docker-compose.yml`: Docker Compose configuration.
+
 	* `tk.backfile_users/root`: Files copied in the `/root` directory of the
 	  image.
 
@@ -125,30 +131,34 @@ server.
 
 ## How to build the images
 
-1. Fill `settings/rsync-users` and `settings/ssh-auth-keys/` as explained in the
-   “Files” section.
+1. Fill `src/tk.backfile_users/root/rsync-users` and
+   `src/tk.backfile_users/root/ssh-auth-keys/` as explained in the “Files”
+   section.
 
-2. Run `make`.
+2. Run `make RSYNC_PORT=<host port> install`,
+   replacing `<host port>` by the port on the host that will be used to connect
+   to the server. When possible, you should not use well-known ports in order to
+   limit the number of connections from software that look for vulnerable
+   servers.
 
+The last step will also generate a POSIX shell script named `./compose`. This
+script is a wrapper around Docker Compose that sets the values of the `-f` and
+`-p` options for this project so you do not have to specify them yourself when
+you run this script instead of calling Docker Compose directly.
 
+**Note:** The `./compose` script assumes that the project directory is the
+current working directory.
 
-## How to create the data volume container
+**Note:** Never use the `up` subcommand without specifying a service because a
+lot of “services” defined in this project are not daemons.
 
-**Note:** The images **MUST** be built before doing this.
-
-Most scripts that create a container assumes that the `tk.bakfile_data`
-container hold the data volume. Use `make run-data` to create it.
 
 
 ## How to test the SSH configuration
 
-Note: The images MUST be built before doing this.
+**Note:** The images MUST be built before doing this.
 
-1. If not already done, create the `tk.bakfile_data` container.
-   See “How to create the data volume container”.
-
-2. Run `make test-rsync`. Alternatively, you can run
-   `sudo docker run --rm --volume-from=tk.bakfile_data tk.bakfile_rsync -t`.
+1. Run `make installcheck`.
 
 
 ## How to start the rsync/ssh server
@@ -221,10 +231,7 @@ For details, see `man gpg`.
 
 **Note:** The images **MUST** be built before doing this.
 
-1. If not already done, create the `tk.bakfile_data` container.
-   See “How to create the data volume container”.
-
-2. Run `make debug-data`.
+1. Run `make run-data-shell`.
 
 
 ## How to upgrade the user list
@@ -262,16 +269,12 @@ If you want to add or remove users while keeping data held by
 5. Run `make export`. This makes a GNU TAR for each volume and puts them in
    `bak/`. Before continuing, you should double-check the archive.
 
-6. Remove the old containers. You may use `make clean-ps` to do this.
+6. Fully uninstall (“purge”) Bakfile. You may use `make purge` to do this.
 
    **WARNING:** This will delete the `/home` volume. So, again, you should be
    sure that you did the previous step correctly before doing this.
 
-   **Note:** `make clean-ps` may return `Error response from daemon: no such id`
-   errors. It simply means that a container in the list does not exists.
-   It is not really a failure (even if `make` tell the opposite).
-
-7. Run `make && make run-data`.
+7. Run `make install`.
 
 8. Run `make import`. This creates the `tk.bakfile_data` container (like
    with `make run-data`) and imports the content of the archives in `bak/`.
@@ -310,6 +313,11 @@ user using `adduser` before running `chown`.
 
 To remove all your setting files and volume backups from the project directory,
 see the `*clean` and `clean-*` targets of the `Makefile`.
+
+
+## How to uninstall
+To delete the Docker containers, images and volumes, see the `uninstall` and
+`purge` targets of the `Makefile`.
 
 
 ## TODO

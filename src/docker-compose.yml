@@ -1,0 +1,44 @@
+# The Docker Compose configuration for this project.
+#
+# WARNING: Always specify the service you want to start (likely `rsync`) when
+# you use the `up` subcommand on this project.
+version: '2'
+services:
+    users:
+        build: ./tk.bakfile_users
+        command: [/bin/true]
+    data:
+        container_name: tk.bakfile_data
+        image: tk.bakfile_data
+        build: ./tk.bakfile_data
+        depends_on:
+            - users
+        command: [/bin/true]
+    data.bash:
+        image: tk.backfile_data
+        depends_on:
+            - data
+        volumes_from:
+            - data
+        command: [/bin/bash]
+    rsync:
+        build: ./tk.bakfile_rsync
+        depends_on:
+            - data
+        volumes_from:
+            - data
+        ports:
+            - "${BAKFILE_RSYNC_PORT}:22"
+    duplicity:
+        build: ./tk.bakfile_duplicity
+        depends_on:
+            - data
+        volumes_from:
+            - data
+    gpg:
+        build: ./tk.bakfile_gpg
+        depends_on:
+            - data
+        volumes_from:
+            - data
+volumes: []
