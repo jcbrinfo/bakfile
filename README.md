@@ -269,8 +269,8 @@ If you want to add or remove users while keeping data held by
 
 7. Run `make install`.
 
-8. Run `make import`. This creates the `tk.bakfile_data` container (like
-   with `make run-data`) and imports the content of the archives in `bak/`.
+8. Run `make import`. This imports the `/home` volume from the `bak/volumes.tar`
+   archive.
 
 9. Check ownership of the imported files  by using the `tk.bakfile_data`’s
    shell. For details, see the “How to open a shell in the `/home` volume”
