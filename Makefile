@@ -65,14 +65,23 @@ DOCKER_COMPOSE_PROJECT = $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
 DOCKER_TAR = $(DOCKER) run --rm --volumes-from=$(DATA_IMAGE) --volume="$$(cd $(bakdir) && pwd)":$(CONTAINER_BAK_DIRECTORY) $(DATA_IMAGE) /bin/tar
 
 
+.PHONY: all
+all: $(COMPOSE_RUNNER)
+	# To build Docker images, run `$(MAKE) install`.
 
-all:
-	# Nothing to compile. To build Docker images, run `$(MAKE) images` or
-	# `$(MAKE) install`.
+# Builds a POSIX Shell script that wraps Docker Compose with the right options
+# for this project.
+$(COMPOSE_RUNNER):
+	echo '#! /bin/sh' > $(COMPOSE_RUNNER)
+	echo '# Runs Docker Compose with the right options for this project.' >> $(COMPOSE_RUNNER)
+	echo '#' >> $(COMPOSE_RUNNER)
+	echo '# Assumes that the project directory is the current directory.' >> $(COMPOSE_RUNNER)
+	printf 'exec %s "$$@"\n' '$(DOCKER_COMPOSE_PROJECT)' >> $(COMPOSE_RUNNER)
+	chmod u+x -- $(COMPOSE_RUNNER)
 
 # Builds the Docker images.
-.PHONY: images install
-images install:
+.PHONY: install
+install: all
 	BAKFILE_RSYNC_PORT=$(RSYNC_PORT) $(DOCKER_COMPOSE_PROJECT) build
 
 # Remove `bak`, the user list and default users’ keys.
@@ -91,7 +100,7 @@ clean-bak:
 
 .PHONY: clean mostlyclean
 clean mostlyclean:
-	# This project does not contain generated files.
+	rm -f -- $(COMPOSE_RUNNER)
 
 
 # Stops containers, then removes all containers and images related to

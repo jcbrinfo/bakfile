@@ -152,6 +152,8 @@ current working directory.
 **Note:** Never use the `up` subcommand without specifying a service because a
 lot of “services” defined in this project are not daemons.
 
+**Note:** To regenerate `./compose` (for example, because you forgot to override
+a variable of the `Makefile`), run `make clean && make`.
 
 
 ## How to test the SSH configuration
@@ -163,67 +165,58 @@ lot of “services” defined in this project are not daemons.
 
 ## How to start the rsync/ssh server
 
-Note: The images MUST be built before doing this.
+**Note:** The images MUST be built before doing this.
 
-1. If not already done, create the `tk.bakfile_data` container.
-   See “How to create the data volume container”.
-
-2. Run `sudo docker run -d -p {hostPort}:22 --volume-from=tk.bakfile_data tk.bakfile_rsync`,
-   replacing `{hostPort}` by the port on the host that will be used to connect
-   to the server. When possible, you should not use well-known port in order to
-   limit the number of connections from software that look for vulnerable
-   servers.
+1. Run `./compose up -d rsync`.
 
 
 ## How to launch a Duplicity backup
 
-In the following instructions, `{hostBackupMeta}` refers to the directory in the
+In the following instructions, `<backup meta>` refers to the directory in the
 host where to put Duplicity’s cache and GnuPG data.
 
 **Note:** Duplicity uses GnuPG to encrypt backups.
 
 **Note:** The images **MUST** be built before doing this.
 
-1. Ensure that `{hostBackupMeta}` contains at least a `duplicity-cache` (for
+1. Ensure that `<backup meta>` contains at least a `duplicity-cache` (for
    Duplicity’s cache) and a `gnupg` (for GnuPG data) subdirectory. For each
    missing directory, create an empty directory with the required name. These
    directories should have `root:root` as the ownership and `0700` (“only the
    owner has rights”) as the permissions.
 
 2. If not already done, generate an encryption key by running
-   `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm tk.bakfile_gpg --gen-key`.
+   `./compose run -v <backup meta>:/root/.backup-meta --rm gpg --gen-key`.
 
    **Note:** If you forget the ID of the generated key, you may look for it by
    running
-   `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm tk.bakfile_gpg --list-keys`.
+   `./compose run -v <backup meta>:/root/.backup-meta --rm gpg --list-keys`.
 
-3. Run `sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm --volumes-from=tk.bakfile_data tk.bakfile_duplicity {args...}`,
-   replacing `{args...}` by the arguments to pass to the `duplicity` command.
+3. Run `./compose run -v <backup meta>:/root/.backup-meta --rm duplicity <args...>`,
+   replacing `<args...>` by the arguments to pass to the `duplicity` command.
 
    Example:
 
    ```
-   sudo docker pause tk.bakfile_rsync && \
-   sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm \
-       --volumes-from=tk.bakfile_data tk.bakfile_duplicity \
+   ./compose pause rsync && \
+   ./compose run -v <backup meta>:/root/.backup-meta --rm duplicity \
        --full-if-older-than 1M --encrypt-sign-key ABCD1234 --progress /home \
        copy://user@example.com@copy.com/home-backup && \
-   sudo docker run -ti -v {hostBackupMeta}:/root/.backup-meta --rm \
-       --volumes-from=tk.bakfile_data tk.bakfile_duplicity \
+   ./compose run -v {hostBackupMeta}:/root/.backup-meta --rm duplicity \
        remove-all-but-n-full 2 --force --encrypt-sign-key ABCD1234 \
        copy://user@example.com@copy.com/home-backup
    ```
 
 When backuping the GnuPG data, only the following files are important:
 
-* `{hostBackupMeta}/gnupg/secring.gpg`
-* `{hostBackupMeta}/gnupg/pubring.gpg`
-* `{hostBackupMeta}/gnupg/trustdb.gpg`
+* `<backup meta>/gnupg/secring.gpg`
+* `<backup meta>/gnupg/pubring.gpg`
+* `<backup meta>/gnupg/trustdb.gpg`
 
 All other files of `{hostBackupMeta}` consist in lock files and caches.
 
-Note: For the last one, only data exported by a
-`gpg --homedir {hostBackupMeta}/gnupg --export-ownertrust` command is important.
+**Note:** For the last one, only data exported by a
+`gpg --homedir <backup meta>/gnupg --export-ownertrust` command is important.
 For details, see `man gpg`.
 
 
