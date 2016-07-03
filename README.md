@@ -292,8 +292,8 @@ should not edit the ownership of these files.
 1. Follow the procedure described in the “How to open a shell in the `/home`
    volume” section.
 
-2. Run `chown -R --from={oldOwner}:{oldGroup} {newOwner}:{newGroup} {files…}`,
-   replacing `{oldOwner}`, `{ordGroup}`, `{newOwner}` and `{newGroup}` by the
+2. Run `chown -R --from=<old owner>:<old group> <new owner>:<new group> -- <files…>`,
+   replacing `<old owner>`, `<old group>`, `<new owner>` and `<new group>` by
    the current owner, the current group, the new owner and the new group,
    respectively. `chown` automatically excludes files that do not have the
    ownership specified with the `--from` option. For details, see `man chown`.
