@@ -35,6 +35,7 @@ RSYNC_SERVICE = rsync
 
 # Path to the Docker Compose configuration.
 COMPOSE_FILE = $(srcdir)/docker-compose.yml
+
 # Path to the POSIX Shell script that wraps Docker Compose with the right
 # options for this project.
 COMPOSE_RUNNER = ./compose
@@ -62,7 +63,7 @@ SUDO = sudo
 DOCKER = $(SUDO) docker
 DOCKER_COMPOSE = $(SUDO) docker-compose
 DOCKER_COMPOSE_PROJECT = $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
-DOCKER_TAR = $(DOCKER) run --rm --volumes-from=$(DATA_IMAGE) --volume="$$(cd $(bakdir) && pwd)":$(CONTAINER_BAK_DIRECTORY) $(DATA_IMAGE) /bin/tar
+DOCKER_TAR = $(DOCKER) run --rm --volumes-from $(DATA_IMAGE) --volume "$$(cd $(bakdir) && pwd)":$(CONTAINER_BAK_DIRECTORY) -- $(DATA_IMAGE) /bin/tar
 
 
 .PHONY: all
@@ -91,12 +92,12 @@ distclean maintainer-clean: clean clean-bak clean-settings
 # Remove the user list and default users’ keys.
 .PHONY: clean-settings
 clean-settings:
-	rm -rf $(srcdir)/$(USERS_IMAGE)/root/ssh-auth-keys $(srcdir)/$(USERS_IMAGE)/root/rsync-users
+	rm -rf -- $(srcdir)/$(USERS_IMAGE)/root/ssh-auth-keys $(srcdir)/$(USERS_IMAGE)/root/rsync-users
 
 # Removes the files in `bak`.
 .PHONY: clean-bak
 clean-bak:
-	rm -rf $(bakdir)
+	rm -rf -- $(bakdir)
 
 .PHONY: clean mostlyclean
 clean mostlyclean:
@@ -142,7 +143,7 @@ run-data-shell:
 # Exports `/home` as `bak/volumes.tar`.
 .PHONY: export
 export:
-	mkdir -p $(bakdir)
+	mkdir -p -- $(bakdir)
 	$(DOCKER_TAR) -cf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) --atime-preserve -- $(VOLUMES)
 
 # Imports `/home` from `bak/volumes.tar`.
@@ -152,5 +153,5 @@ export:
 # WARNING: This overwrite files without asking.
 .PHONY: import
 import:
-	mkdir -p $(bakdir)
+	mkdir -p -- $(bakdir)
 	$(DOCKER_TAR) -xpf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) -C / --atime-preserve --overwrite
