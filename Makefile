@@ -77,7 +77,7 @@ $(COMPOSE_RUNNER):
 	echo '# Runs Docker Compose with the right options for this project.' >> $(COMPOSE_RUNNER)
 	echo '#' >> $(COMPOSE_RUNNER)
 	echo '# Assumes that the project directory is the current directory.' >> $(COMPOSE_RUNNER)
-	printf 'exec %s "$$@"\n' '$(DOCKER_COMPOSE_PROJECT)' >> $(COMPOSE_RUNNER)
+	printf '%s "$$@"\n' '$(DOCKER_COMPOSE_PROJECT)' >> $(COMPOSE_RUNNER)
 	chmod u+x -- $(COMPOSE_RUNNER)
 
 # Builds the Docker images.
