@@ -252,25 +252,25 @@ If you want to add or remove users while keeping data held by
    associated to the users that will be removed. For details, see the “Files”
    section.
 
-3. Stop (but do not remove yet) any container using the volume of
-   `tk.bakfile_data`.
+3. Stop (but do not remove yet) Bakfile’s containers by invoking
+   `./compose stop`.
 
-4. For each user to remove, delete its “home” directory from `/home` by using
-   the `tk.bakfile_data`’s shell. For details, see the “How to open a shell in
-   the `/home` volume” section.
-
-5. Run `make export`. This makes a GNU TAR for each volume and puts them in
+4. Run `make export`. This makes a GNU TAR for each volume and puts them in
    `bak/`. Before continuing, you should double-check the archive.
 
-6. Fully uninstall (“purge”) Bakfile. You may use `make purge` to do this.
+5. Fully uninstall (“purge”) Bakfile. You may use `make purge` to do this.
 
    **WARNING:** This will delete the `/home` volume. So, again, you should be
    sure that you did the previous step correctly before doing this.
 
-7. Run `make install`.
+6. Run `make install`.
 
-8. Run `make import`. This imports the `/home` volume from the `bak/volumes.tar`
+7. Run `make import`. This imports the `/home` volume from the `bak/volumes.tar`
    archive.
+
+8. For each user to remove, delete its “home” directory from `/home` using
+   a shell as described in the “How to open a shell in the `/home` volume”
+   section.
 
 9. Check ownership of the imported files  by using the `tk.bakfile_data`’s
    shell. For details, see the “How to open a shell in the `/home` volume”
