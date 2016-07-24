@@ -4,6 +4,10 @@
 .SUFFIXES:
 SHELL = /bin/sh
 
+
+# ##############################################################################
+# Macros
+
 # The following macros MUST NOT contain apostrophes in order to workaround
 # the lack of a “substring substitution” feature in POSIX make:
 #
@@ -65,6 +69,9 @@ DOCKER_COMPOSE = $(SUDO) docker-compose
 DOCKER_COMPOSE_PROJECT = $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
 DOCKER_TAR = $(DOCKER) run --rm --volumes-from $(DATA_IMAGE) --volume "$$(cd $(bakdir) && pwd)":$(CONTAINER_BAK_DIRECTORY) -- $(DATA_IMAGE) /bin/tar
 
+
+# ##############################################################################
+# Targets
 
 .PHONY: all
 all: $(COMPOSE_RUNNER)
