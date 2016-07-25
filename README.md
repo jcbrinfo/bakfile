@@ -24,7 +24,8 @@ this repository is to make the following tasks easier:
   server and its user’s files.
 
 * When upgrading the server or the user list, enough space in `bak` to hold a
-  copy of the `/home` directory of the server.
+  copy of the `home` and `duplicity.cache` volumes. For details, see the
+  “Volumes” section.
 
 
 ## Files
