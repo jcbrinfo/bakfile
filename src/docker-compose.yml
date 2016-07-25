@@ -45,5 +45,5 @@ services:
         volumes:
             - home:/home
 volumes:
-	home: {}
-	duplicity.cache: {}
+    home: {}
+    duplicity.cache: {}
