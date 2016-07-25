@@ -44,6 +44,11 @@ COMPOSE_FILE = $(srcdir)/docker-compose.yml
 # options for this project.
 COMPOSE_RUNNER = ./compose
 
+# Absolute path to the directory in the host where to put GnuPG data.
+#
+# You MUST specify the value of this variable when running the `install` target.
+GNUPG_HOMEDIR = /dev/null
+
 # Port of the rsync sever on the host.
 #
 # You SHOULD specify the value of this variable when running the `install`
@@ -90,7 +95,7 @@ $(COMPOSE_RUNNER):
 # Builds the Docker images.
 .PHONY: install
 install: all
-	BAKFILE_RSYNC_PORT=$(RSYNC_PORT) $(DOCKER_COMPOSE_PROJECT) build
+	BAKFILE_RSYNC_PORT=$(RSYNC_PORT) BAKFILE_GNUPG_HOMEDIR=$(GNUPG_HOMEDIR) $(DOCKER_COMPOSE_PROJECT) build
 
 # Remove `bak`, the user list and default users’ keys.
 .PHONY: distclean maintainer-clean

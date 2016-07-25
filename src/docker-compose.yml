@@ -43,6 +43,9 @@ services:
         depends_on:
             - data
         volumes:
+            - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
+            - home:/home
+        volumes:
             - home:/home
 volumes:
     home: {}
