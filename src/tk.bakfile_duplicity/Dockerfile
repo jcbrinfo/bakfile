@@ -14,4 +14,4 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -m 0700 -p /root/.bakup-meta/gnupg && \
 	ln -s -T /root/.backup-meta/gnupg /root/.gnupg
 
-ENTRYPOINT ["/usr/bin/duplicity", "--archive-dir", "/root/.backup-meta/duplicity-cache"]
+ENTRYPOINT ["/usr/bin/duplicity"]

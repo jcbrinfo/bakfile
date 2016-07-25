@@ -57,7 +57,7 @@ RSYNC_PORT = 22
 VOLUME_TAR = volumes.tar
 
 # Volumes to export/import (`export` and `import`). Use absolute paths.
-VOLUMES = /home
+VOLUMES = /home /root/.duplicity
 
 # Temporary path for the backup directory on the container (`export` and
 # `import`).

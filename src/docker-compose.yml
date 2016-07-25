@@ -37,6 +37,7 @@ services:
             - data
         volumes:
             - home:/home
+            - duplicity.cache:/root/.duplicity
     gpg:
         build: ./tk.bakfile_gpg
         depends_on:
@@ -45,3 +46,4 @@ services:
             - home:/home
 volumes:
 	home: {}
+	duplicity.cache: {}

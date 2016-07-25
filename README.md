@@ -26,10 +26,6 @@ this repository is to make the following tasks easier:
 * When upgrading the server or the user list, enough space in `bak` to hold a
   copy of the `/home` directory of the server.
 
-* A place where to put the Duplicity’s cache and GnuPG data.
-
-Note: Duplicity uses GnuPG to encrypt backups.
-
 
 ## Files
 
@@ -81,14 +77,12 @@ Note: Duplicity uses GnuPG to encrypt backups.
 * `tk.bakfile_gpg`: Same as `tk.bakfile_duplicity`, but with GnuPG as the entry
   point. Useful to manage the encryption keys for the backups.
 
-Note: The entry points of both `tk.bakfile_duplicity` and
-`tk.bakfile_gpg` includes arguments to use `/root/.backup-meta` for the
-keys and caches.
-
 
 ## Volumes
 
 * `home` (`/home`): User’s files, including authentication keys (as usual).
+
+* `duplicity.cache` (`/root/.duplicity`): Duplicity’s cache.
 
 * `/root/.backup-meta`: Files for the backup tools (like Duplicity). Mapped to
   an host’s directory while following the instructions in the “How to launch a
@@ -254,8 +248,8 @@ If you want to add or remove users while keeping data held by
 3. Stop (but do not remove yet) Bakfile’s containers by invoking
    `./compose stop`.
 
-4. Run `make export`. This makes a GNU TAR for each volume and puts them in
-   `bak/`. Before continuing, you should double-check the archive.
+4. Run `make export`. This makes a GNU TAR of the volumes at `bak/volumes.tar`.
+   Before continuing, you should double-check the archive.
 
 5. Fully uninstall (“purge”) Bakfile. You may use `make purge` to do this.
 
@@ -264,7 +258,8 @@ If you want to add or remove users while keeping data held by
 
 6. Run `make install`.
 
-7. Run `make import`. This imports the `/home` volume from the `bak/volumes.tar`
+7. Run `make import`. This restores the content of the `home` (`/home`) and
+   `duplicity.cache` (`/root/.duplicity`) volumes from the `bak/volumes.tar`
    archive.
 
 8. For each user to remove, delete its “home” directory from `/home` using
