@@ -5,7 +5,7 @@ related utilities. Users are authenticated using SSH public keys. The goal of
 this repository is to make the following tasks easier:
 
 * Setup a secure rsync server for a [LAN](https://en.wikipedia.org/wiki/Local_area_network).
-* Upgrade the server or the user list whitout losing data.
+* Upgrade the server or the user list without losing data.
 * Upload/download encrypted backups to/from the cloud (using Duplicity).
 * Manage encryption keys.
 * Sandbox everything inside Linux containers (using Docker Engine and Docker
@@ -230,7 +230,7 @@ If you want to add or remove users while keeping data held by
 
    **Note:** During the following steps, `tar` will be used to export and
    reimport the `/home` volume. To restore ownership, it will try to match user
-   and group names first, and fallback using the saved UID and GID. For more
+   and group names first, and fall back using the saved UID and GID. For more
    information, see documentation of the `--numeric-owner` option of GNU Tar and
    [http://serverfault.com/a/445504](http://serverfault.com/a/445504). This
    means you should not change existing names and IDs. If you do and `tar` does
@@ -271,7 +271,7 @@ If you want to add or remove users while keeping data held by
    section. If you get files associated to the wrong user, see the “How to
    change owners in batch” subsection bellow.
 
-10. If everything is ok, you may run `make clean-bak` to delete everything in
+10. If everything is OK, you may run `make clean-bak` to delete everything in
     `bak/`.
 
 
