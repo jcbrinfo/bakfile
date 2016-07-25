@@ -88,8 +88,7 @@ keys and caches.
 
 ## Volumes
 
-* `/home`: User’s files, including authentication keys (as usual). Defined
-  by `tk.bakfile_data`.
+* `home` (`/home`): User’s files, including authentication keys (as usual).
 
 * `/root/.backup-meta`: Files for the backup tools (like Duplicity). Mapped to
   an host’s directory while following the instructions in the “How to launch a

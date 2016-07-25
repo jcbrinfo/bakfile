@@ -10,5 +10,4 @@ RUN mkdir -p -m 700 /root/.backup-meta \
 	&& chmod u+x /root/bin/register-ssh-keys.sh \
 	&& /bin/bash /root/bin/register-ssh-keys.sh
 
-VOLUME /home
 CMD ["/bin/true"]

@@ -13,32 +13,35 @@ services:
         build: ./tk.bakfile_data
         depends_on:
             - users
+        volumes:
+            - home:/home
         command: [/bin/true]
     data.bash:
         image: tk.backfile_data
         depends_on:
             - data
-        volumes_from:
-            - data
+        volumes:
+            - home:/home
         command: [/bin/bash]
     rsync:
         build: ./tk.bakfile_rsync
         depends_on:
             - data
-        volumes_from:
-            - data
+        volumes:
+            - home:/home
         ports:
             - "${BAKFILE_RSYNC_PORT}:22"
     duplicity:
         build: ./tk.bakfile_duplicity
         depends_on:
             - data
-        volumes_from:
-            - data
+        volumes:
+            - home:/home
     gpg:
         build: ./tk.bakfile_gpg
         depends_on:
             - data
-        volumes_from:
-            - data
-volumes: []
+        volumes:
+            - home:/home
+volumes:
+	home: {}
