@@ -45,8 +45,6 @@ services:
         volumes:
             - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
             - home:/home
-        volumes:
-            - home:/home
 volumes:
     home: {}
     duplicity.cache: {}
