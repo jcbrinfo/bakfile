@@ -254,7 +254,8 @@ If you want to add or remove users while keeping data held by
    **WARNING:** This will delete the `/home` volume. So, again, you should be
    sure that you did the previous step correctly before doing this.
 
-6. Run `make install`.
+6. Build the images as described in the second step of the “How to build the
+   images” section.
 
 7. Run `make import`. This restores the content of the `home` (`/home`) and
    `duplicity.cache` (`/root/.duplicity`) volumes from the `bak/volumes.tar`
