@@ -3,8 +3,8 @@
 FROM tk.bakfile_users
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
-RUN mkdir -p -m 700 /root/.backup-meta \
-		/root/.backup-meta/gnupg \
+RUN mkdir -p -m 700 -- \
+		/root/.gnupg \
 		/root/.duplicity \
 	&& chmod u+x /root/bin/move-ssh-key-file.sh \
 	&& chmod u+x /root/bin/register-ssh-keys.sh \

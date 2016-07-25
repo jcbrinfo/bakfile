@@ -85,9 +85,9 @@ this repository is to make the following tasks easier:
 
 * `duplicity.cache` (`/root/.duplicity`): Duplicity’s cache.
 
-* `/root/.backup-meta`: Files for the backup tools (like Duplicity). Mapped to
-  an host’s directory while following the instructions in the “How to launch a
-  Duplicity backup” section.
+* Anonymous volume for `/root/.gnupg`: Files for GnuPG. Mapped to an host’s
+  directory while following the instructions in the “How to launch a Duplicity
+  backup” section.
 
 
 ## If you do not use `sudo`
@@ -166,27 +166,24 @@ a variable of the `Makefile`), run `make clean && make`.
 
 ## How to launch a Duplicity backup
 
-In the following instructions, `<backup meta>` refers to the directory in the
-host where to put Duplicity’s cache and GnuPG data.
+In the following instructions, `<.gnupg>` refers to the directory in the host
+where to put GnuPG data.
 
 **Note:** Duplicity uses GnuPG to encrypt backups.
 
 **Note:** The images **MUST** be built before doing this.
 
-1. Ensure that `<backup meta>` contains at least a `duplicity-cache` (for
-   Duplicity’s cache) and a `gnupg` (for GnuPG data) subdirectory. For each
-   missing directory, create an empty directory with the required name. These
-   directories should have `root:root` as the ownership and `0700` (“only the
+1. Ensure that `<.gnupg>` has `root:root` as the ownership and `0700` (“only the
    owner has rights”) as the permissions.
 
 2. If not already done, generate an encryption key by running
-   `./compose run -v <backup meta>:/root/.backup-meta --rm gpg --gen-key`.
+   `./compose run -v <.gnupg>:/root/.gnupg --rm gpg --gen-key`.
 
    **Note:** If you forget the ID of the generated key, you may look for it by
    running
-   `./compose run -v <backup meta>:/root/.backup-meta --rm gpg --list-keys`.
+   `./compose run -v <.gnupg>:/root/.gnupg --rm gpg --list-keys`.
 
-3. Run `./compose run -v <backup meta>:/root/.backup-meta --rm duplicity <args...>`,
+3. Run `./compose run -v <.gnupg>:/root/.gnupg --rm duplicity <args...>`,
    replacing `<args...>` by the arguments to pass to the `duplicity` command.
 
    Example:
@@ -203,14 +200,14 @@ host where to put Duplicity’s cache and GnuPG data.
 
 When backuping the GnuPG data, only the following files are important:
 
-* `<backup meta>/gnupg/secring.gpg`
-* `<backup meta>/gnupg/pubring.gpg`
-* `<backup meta>/gnupg/trustdb.gpg`
+* `<.gnupg>/secring.gpg`
+* `<.gnupg>/pubring.gpg`
+* `<.gnupg>/trustdb.gpg`
 
-All other files of `{hostBackupMeta}` consist in lock files and caches.
+All other files of `<.gnupg>` consist in lock files and caches.
 
 **Note:** For the last one, only data exported by a
-`gpg --homedir <backup meta>/gnupg --export-ownertrust` command is important.
+`gpg --homedir <.gnupg> --export-ownertrust` command is important.
 For details, see `man gpg`.
 
 

@@ -10,8 +10,4 @@ COPY apt/ /etc/apt/
 RUN apt-get update && apt-get install -y \
 	duplicity/testing
 
-# Make Duplicity use keys from the `/root/.backup-meta` volume.
-RUN mkdir -m 0700 -p /root/.bakup-meta/gnupg && \
-	ln -s -T /root/.backup-meta/gnupg /root/.gnupg
-
 ENTRYPOINT ["/usr/bin/duplicity"]
