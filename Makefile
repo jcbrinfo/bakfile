@@ -137,7 +137,7 @@ purge:
 	} || { echo 'Aborting.' && exit 1; }
 	$(DOCKER_COMPOSE_PROJECT) down --rmi all --volumes
 
-# Runs `sshd -t` in the `tk.bakfile_rsync` image.
+# Runs `sshd -t` in the `rsync` image.
 .PHONY: installcheck
 installcheck:
 	$(DOCKER_COMPOSE_PROJECT) run --rm -- $(RSYNC_SERVICE) -t
