@@ -74,6 +74,7 @@ this repository is to make the following tasks easier:
 * `gpg`: Same as `duplicity`, but with GnuPG as the entry point.
   Useful to manage the encryption keys for the backups.
 
+* `tar`: Used internally by the `import` and `export` targets of the `Makefile`.
 
 
 ## Volumes

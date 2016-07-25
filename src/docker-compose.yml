@@ -40,6 +40,15 @@ services:
         volumes:
             - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
             - home:/home
+    tar:
+        image: tk.bakfile_users
+        depends_on:
+            - users
+        volumes:
+            - home:/home
+            - duplicity.cache:/root/.duplicity
+            - ../bak:/bak
+        command: [/bin/tar]
 volumes:
     home: {}
     duplicity.cache: {}

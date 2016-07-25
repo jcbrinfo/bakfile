@@ -26,14 +26,10 @@ bakdir = ./bak
 # Name of the Docker Compose project.
 PROJECT_NAME = tk.bakfile
 
-# Character used by Docker Compose to separate the project name from the
-# project-specific name.
-NS_SEPARATOR = _
-
 USERS_SERVICE = users
 SHELL_SERVICE = bash
-USERS_IMAGE = $(PROJECT_NAME)$(NS_SEPARATOR)$(USERS_SERVICE)
 RSYNC_SERVICE = rsync
+TAR_SERVICE = tar
 
 # Path to the Docker Compose configuration.
 COMPOSE_FILE = $(srcdir)/docker-compose.yml
@@ -70,7 +66,7 @@ SUDO = sudo
 DOCKER = $(SUDO) docker
 DOCKER_COMPOSE = $(SUDO) docker-compose
 DOCKER_COMPOSE_PROJECT = $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
-DOCKER_TAR = $(DOCKER) run --rm --volumes-from $(DATA_IMAGE) --volume "$$(cd $(bakdir) && pwd)":$(CONTAINER_BAK_DIRECTORY) -- $(DATA_IMAGE) /bin/tar
+DOCKER_TAR = $(DOCKER_COMPOSE_PROJECT) run --rm -- $(TAR_SERVICE)
 
 
 # ##############################################################################
@@ -93,6 +89,7 @@ $(COMPOSE_RUNNER):
 # Builds the Docker images.
 .PHONY: install
 install: all
+	mkdir -p -- $(bakdir)
 	BAKFILE_RSYNC_PORT=$(RSYNC_PORT) BAKFILE_GNUPG_HOMEDIR=$(GNUPG_HOMEDIR) $(DOCKER_COMPOSE_PROJECT) build
 
 # Remove `bak`, the user list and default users’ keys.
@@ -151,14 +148,14 @@ run-data-shell:
 	$(DOCKER_COMPOSE_PROJECT) run --rm -w /home -- $(SHELL_SERVICE)
 
 # Exports `/home` as `bak/volumes.tar`.
+#
+# WARNING: This overwrite files without asking.
 .PHONY: export
 export:
 	mkdir -p -- $(bakdir)
 	$(DOCKER_TAR) -cf $(CONTAINER_BAK_DIRECTORY)/$(VOLUME_TAR) --atime-preserve -- $(VOLUMES)
 
 # Imports `/home` from `bak/volumes.tar`.
-#
-# Assumes that the `tk.bakfile.data` container exists.
 #
 # WARNING: This overwrite files without asking.
 .PHONY: import
