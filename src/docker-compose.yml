@@ -17,7 +17,7 @@ services:
             - home:/home
         command: [/bin/true]
     data.bash:
-        image: tk.backfile_data
+        image: tk.bakfile_data
         depends_on:
             - data
         volumes:
