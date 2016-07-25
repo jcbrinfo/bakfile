@@ -154,14 +154,14 @@ a variable of the `Makefile`), run `make clean && make`.
 
 ## How to test the SSH configuration
 
-**Note:** The images MUST be built before doing this.
+**Note:** The images **MUST** be built before doing this.
 
 1. Run `make installcheck`.
 
 
 ## How to start the rsync/ssh server
 
-**Note:** The images MUST be built before doing this.
+**Note:** The images **MUST** be built before doing this.
 
 1. Run `./compose up -d rsync`.
 
