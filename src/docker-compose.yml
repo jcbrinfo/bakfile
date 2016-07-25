@@ -5,28 +5,23 @@
 version: '2'
 services:
     users:
+        container_name: tk.bakfile_users
+        image: tk.bakfile_users
         build: ./tk.bakfile_users
-        command: [/bin/true]
-    data:
-        container_name: tk.bakfile_data
-        image: tk.bakfile_data
-        build: ./tk.bakfile_data
-        depends_on:
-            - users
         volumes:
             - home:/home
         command: [/bin/true]
-    data.bash:
-        image: tk.bakfile_data
+    bash:
+        image: tk.bakfile_users
         depends_on:
-            - data
+            - users
         volumes:
             - home:/home
         command: [/bin/bash]
     rsync:
         build: ./tk.bakfile_rsync
         depends_on:
-            - data
+            - users
         volumes:
             - home:/home
         ports:
@@ -34,14 +29,14 @@ services:
     duplicity:
         build: ./tk.bakfile_duplicity
         depends_on:
-            - data
+            - users
         volumes:
             - home:/home
             - duplicity.cache:/root/.duplicity
     gpg:
         build: ./tk.bakfile_gpg
         depends_on:
-            - data
+            - users
         volumes:
             - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
             - home:/home

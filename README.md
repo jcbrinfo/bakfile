@@ -61,22 +61,19 @@ this repository is to make the following tasks easier:
 
 ## Docker images
 
-* `tk.bakfile_users`: Base image for the other images. Creates the
-  `rsync-users`  group and the users. Any image using the data of the file
-   server must inherit of this service so UIDs and GIDs will be correctly set.
+* `users`: Base image for the other images. Creates the `rsync-users`  group and
+  the users. Populates the `.ssh` directory (SSH keys) of the users. Any image
+  using the data of the file server must inherit of this service so UIDs and
+  GIDs will be correctly set.
 
-* `tk.bakfile_data`: Image for the data volume container. Defines
-  the `/home` volume. The `Dokerfile` automatically populate the `.ssh`
-  directory of the users. Any container using the data of the file server must
-  be run with the `--volumes-from tk.bakfile_data` option.
+* `rsync`: Installs an OpenSSH server with rsync. The entry point is the command
+  of the SSH daemon.
 
-* `tk.bakfile_rsync`: Installs an OpenSSH server with rsync. The entry point
-  is the command of the SSH deamon. Exposes the SSH server at port 22.
+* `duplicity`: Installs Duplicity and set it as the entry point.
 
-* `tk.bakfile_duplicity`: Installs Duplicity and set it as the entry point.
+* `gpg`: Same as `duplicity`, but with GnuPG as the entry point.
+  Useful to manage the encryption keys for the backups.
 
-* `tk.bakfile_gpg`: Same as `tk.bakfile_duplicity`, but with GnuPG as the entry
-  point. Useful to manage the encryption keys for the backups.
 
 
 ## Volumes
@@ -281,8 +278,8 @@ If you want to add or remove users while keeping data held by
 If someday you need to transfer ownership of all files that belong to an user to
 another, here is a way to do it:
 
-**WARNING:** Some files in `/home` come from the `tk.bakfile_users` image. You
-should not edit the ownership of these files.
+**WARNING:** Some files in `/home` come from the `users` image. You should not
+edit the ownership of these files.
 
 1. Follow the procedure described in the “How to open a shell in the `/home`
    volume” section.

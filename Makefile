@@ -31,10 +31,8 @@ PROJECT_NAME = tk.bakfile
 NS_SEPARATOR = _
 
 USERS_SERVICE = users
+SHELL_SERVICE = bash
 USERS_IMAGE = $(PROJECT_NAME)$(NS_SEPARATOR)$(USERS_SERVICE)
-DATA_SERVICE = data
-DATA_IMAGE = $(PROJECT_NAME)$(NS_SEPARATOR)$(DATA_SERVICE)
-DATA_SHELL_SERVICE = data.bash
 RSYNC_SERVICE = rsync
 
 # Path to the Docker Compose configuration.
@@ -150,7 +148,7 @@ installcheck:
 # Runs `bash` in the `tk.bakfile_data` image.
 .PHONY: run-data-shell
 run-data-shell:
-	$(DOCKER_COMPOSE_PROJECT) run --rm -w /home -- $(DATA_SHELL_SERVICE)
+	$(DOCKER_COMPOSE_PROJECT) run --rm -w /home -- $(SHELL_SERVICE)
 
 # Exports `/home` as `bak/volumes.tar`.
 .PHONY: export
