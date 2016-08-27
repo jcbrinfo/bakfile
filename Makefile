@@ -92,11 +92,11 @@ install: all
 	mkdir -p -- $(bakdir)
 	BAKFILE_RSYNC_PORT=$(RSYNC_PORT) BAKFILE_GNUPG_HOMEDIR=$(GNUPG_HOMEDIR) $(DOCKER_COMPOSE_PROJECT) build
 
-# Remove `bak`, the user list and default users’ keys.
+# Removes `bak`, the user list and default users’ keys.
 .PHONY: distclean maintainer-clean
 distclean maintainer-clean: clean clean-bak clean-settings
 
-# Remove the user list and default users’ keys.
+# Removes the user list and default users’ keys.
 .PHONY: clean-settings
 clean-settings:
 	rm -rf -- $(srcdir)/$(USERS_IMAGE)/root/ssh-auth-keys $(srcdir)/$(USERS_IMAGE)/root/rsync-users
