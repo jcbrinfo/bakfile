@@ -137,10 +137,10 @@ server.
 2. Run `make GNUPG_HOMEDIR=<.gnupg> RSYNC_PORT=<host port> install`,
    replacing `<.gnupg>` and `<host port>` by the appropriate values.
    `<.gnupg>` corresponds to the absolute path to the directory in the host
-   where to put GnuPG data. `<host port>` is the port on the host that will be
-   used to connect to the server. When possible, you should not use well-known
-   ports in order to limit the number of connections from software that look for
-   vulnerable servers.
+   where to put GnuPG data (encryption keys). `<host port>` is the port on the
+   host that will be used to connect to the server. When possible, you should
+   not use well-known ports in order to limit the number of connections from
+   software that look for vulnerable servers.
 
 The last step will also generate a POSIX shell script named `./compose`. This
 script is a wrapper around Docker Compose that sets the values of the `-f` and
