@@ -59,11 +59,19 @@ VOLUMES = /home /root/.cache/duplicity
 # `import`).
 CONTAINER_BAK_DIRECTORY = /bak
 
+define LF =
+
+
+endef
+
 SUDO = sudo -E
 DOCKER = $(SUDO) docker
 DOCKER_COMPOSE = $(SUDO) docker-compose
-DOCKER_COMPOSE_PROJECT = $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
-DOCKER_TAR = $(DOCKER_COMPOSE_PROJECT) run --rm -- $(TAR_SERVICE)
+DOCKER_COMPOSE_PROJECT = :\
+	\$(LF)&& export BAKFILE_RSYNC_PORT=$(RSYNC_PORT)\
+	\$(LF)&& export BAKFILE_GNUPG_HOMEDIR=$(GNUPG_HOMEDIR)\
+	\$(LF)&& $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
+DOCKER_TAR = $(COMPOSE_RUNNER) run --rm $(TAR_SERVICE)
 
 
 # ##############################################################################
@@ -87,7 +95,7 @@ $(COMPOSE_RUNNER):
 .PHONY: install
 install: all
 	mkdir -p -- $(bakdir)
-	BAKFILE_RSYNC_PORT=$(RSYNC_PORT) BAKFILE_GNUPG_HOMEDIR=$(GNUPG_HOMEDIR) $(DOCKER_COMPOSE_PROJECT) build
+	$(COMPOSE_RUNNER) build
 
 # Removes `bak`, the user list and default users’ keys.
 .PHONY: distclean maintainer-clean
@@ -137,12 +145,12 @@ purge:
 # Runs `sshd -t` in the `rsync` image.
 .PHONY: installcheck
 installcheck:
-	$(DOCKER_COMPOSE_PROJECT) run --rm -- $(RSYNC_SERVICE) -t
+	$(COMPOSE_RUNNER) run --rm $(RSYNC_SERVICE) -t
 
 # Runs `bash` in the `tk.bakfile_data` image.
 .PHONY: run-data-shell
 run-data-shell:
-	$(DOCKER_COMPOSE_PROJECT) run --rm -w /home -- $(SHELL_SERVICE)
+	$(COMPOSE_RUNNER) run --rm -w /home $(SHELL_SERVICE)
 
 # Exports `/home` as `bak/volumes.tar`.
 #
