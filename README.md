@@ -280,6 +280,21 @@ If you want to add or remove users while keeping data held by
     `bak/`.
 
 
+### How to upgrade the images (including their dependencies)
+
+Following this procedure will upgrade the Debian image on which the Bakfile’s
+images are based, then will rebuild all the Bakfile’s images, while leaving
+all volumes (such as `/home`) as-is.
+
+1. Make sure the content of `src/tk.backfile_users/root/rsync-users`,
+   `src/tk.backfile_users/root/ssh-auth-keys/` and `compose` is the same as it
+   was during the last install/build (the last invokation of `make… install` or
+   `make upgrade`). This ensures that the same settings and user list will be
+   reapplied during the rebuild.
+
+2. Run `make upgrade`.
+
+
 ### How to change ownership in batch
 
 If someday you need to transfer ownership of all files that belong to an user to

@@ -97,6 +97,12 @@ install: all
 	mkdir -p -- $(bakdir)
 	$(COMPOSE_RUNNER) build
 
+# Upgrades `debian:jessie`, then rebuilds the images.
+.PHONY: upgrade
+upgrade: all
+	$(DOCKER) pull debian:jessie
+	$(COMPOSE_RUNNER) build
+
 # Removes any files that is not part of the distributed source code.
 #
 # That includes settings and files in the `bak` directory.
