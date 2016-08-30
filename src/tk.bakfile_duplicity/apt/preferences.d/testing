@@ -1,7 +1,0 @@
-Package: duplicity
-Pin: release testing
-Pin-Priority: 990
-
-Package: *
-Pin: release testing
-Pin-Priority: -10
