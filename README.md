@@ -25,7 +25,8 @@ this repository is to make the following tasks easier:
 * Enough space in Docker’s workspace (`/var/lib/docker` on Linux) to hold the
   server and its user’s files.
 
-* When upgrading the server or the user list, enough space in `bak` to hold a
+* When upgrading the server or the user list, enough space in the `bak`
+  sub-directory of the project directory (this directory) to hold a
   copy of the `home` and `duplicity.cache` volumes. For details, see the
   “Volumes” section.
 
