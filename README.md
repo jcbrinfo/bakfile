@@ -202,12 +202,13 @@ where to put GnuPG data.
 
    ```
    ./compose pause rsync && \
-   ./compose run  --rm duplicity \
+   ./compose run --rm duplicity \
        --full-if-older-than 1M --encrypt-sign-key ABCD1234 --progress /home \
        copy://user@example.com@copy.com/home-backup && \
    ./compose run --rm duplicity \
        remove-all-but-n-full 2 --force --encrypt-sign-key ABCD1234 \
-       copy://user@example.com@copy.com/home-backup
+       copy://user@example.com@copy.com/home-backup && \
+   ./compose unpause rsync
    ```
 
 When backuping the GnuPG data, only the following files are important:
