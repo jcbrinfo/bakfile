@@ -142,6 +142,11 @@ server.
    not use well-known ports in order to limit the number of connections from
    software that look for vulnerable servers.
 
+   **Note:** If you get dependency problems, try to use the `upgrade` target
+   instead of `install`. This will force the Debian image (on which all the
+   Bakfile’s images depend) to be upgraded before rebuilding the Bakfile’s
+   images.
+
 The last step will also generate a POSIX shell script named `./compose`. This
 script is a wrapper around Docker Compose that sets the values of the `-f` and
 `-p` options for this project so you do not have to specify them yourself when
