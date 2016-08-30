@@ -59,7 +59,7 @@ VOLUMES = /home /root/.cache/duplicity
 # `import`).
 CONTAINER_BAK_DIRECTORY = /bak
 
-SUDO = sudo
+SUDO = sudo -E
 DOCKER = $(SUDO) docker
 DOCKER_COMPOSE = $(SUDO) docker-compose
 DOCKER_COMPOSE_PROJECT = $(DOCKER_COMPOSE) -f $(COMPOSE_FILE) -p $(PROJECT_NAME)
