@@ -26,16 +26,19 @@ services:
         ports:
             - "${BAKFILE_RSYNC_PORT}:22"
     duplicity:
+        image: tk.bakfile_duplicity
         build: ./tk.bakfile_duplicity
         depends_on:
             - users
         volumes:
             - home:/home
             - duplicity.cache:/root/.cache/duplicity
+        # Do nothing by default so `gpg` can depend on this service.
+        command: [--version]
     gpg:
         build: ./tk.bakfile_gpg
         depends_on:
-            - users
+            - duplicity
         volumes:
             - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
             - home:/home
