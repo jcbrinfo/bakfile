@@ -97,7 +97,12 @@ install: all
 	mkdir -p -- $(bakdir)
 	$(COMPOSE_RUNNER) build
 
-# Removes `bak`, the user list and default users’ keys.
+# Removes any files that is not part of the distributed source code.
+#
+# That includes settings and files in the `bak` directory.
+#
+# WARNING: Make sure you do not need anything that is in the project directory
+# before running this.
 .PHONY: distclean maintainer-clean
 distclean maintainer-clean: clean clean-bak clean-settings
 
@@ -111,6 +116,7 @@ clean-settings:
 clean-bak:
 	rm -rf -- $(bakdir)
 
+# Removes the `compose` script.
 .PHONY: clean mostlyclean
 clean mostlyclean:
 	rm -f -- $(COMPOSE_RUNNER)
