@@ -16,7 +16,7 @@ services:
             - users
         volumes:
             - home:/home
-        command: [/bin/bash]
+        entrypoint: [/bin/bash]
     rsync:
         build: ./tk.bakfile_rsync
         depends_on:
@@ -47,7 +47,7 @@ services:
             - home:/home
             - duplicity.cache:/root/.cache/duplicity
             - ../bak:/bak
-        command: [/bin/tar]
+        entrypoint: [/bin/tar]
 volumes:
     home: {}
     duplicity.cache: {}
