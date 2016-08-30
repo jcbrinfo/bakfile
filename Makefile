@@ -1,22 +1,15 @@
 # See `README` and below.
 
-.POSIX:
 .SUFFIXES:
 SHELL = /bin/sh
+
+ifneq (,)
+This makefile requires GNU Make.
+endif
 
 
 # ##############################################################################
 # Macros
-
-# The following macros MUST NOT contain apostrophes in order to workaround
-# the lack of a “substring substitution” feature in POSIX make:
-#
-# * COMPOSE_FILE
-# * DOCKER_COMPOSE
-# * DOCKER_COMPOSE_PROJECT
-# * PROJECT_NAME
-# * srcdir
-# * SUDO
 
 srcdir = ./src
 
@@ -83,7 +76,7 @@ $(COMPOSE_RUNNER):
 	echo '# Runs Docker Compose with the right options for this project.' >> $(COMPOSE_RUNNER)
 	echo '#' >> $(COMPOSE_RUNNER)
 	echo '# Assumes that the project directory is the current directory.' >> $(COMPOSE_RUNNER)
-	printf '%s "$$@"\n' '$(DOCKER_COMPOSE_PROJECT)' >> $(COMPOSE_RUNNER)
+	printf '%s "$$@"\n' '$(subst ','\'',$(DOCKER_COMPOSE_PROJECT))' >> $(COMPOSE_RUNNER)
 	chmod u+x -- $(COMPOSE_RUNNER)
 
 # Builds the Docker images.

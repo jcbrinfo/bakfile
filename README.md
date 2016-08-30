@@ -16,6 +16,8 @@ this repository is to make the following tasks easier:
 
 * A POSIX system (Linux, OS X, Cygwin, Linux Subsystem for Windows…)
 
+* GNU Make
+
 * Docker Engine, version 1.10 or greater
 
 * Docker Compose, version 1.7 or greater
