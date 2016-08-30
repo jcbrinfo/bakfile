@@ -45,7 +45,7 @@ GNUPG_HOMEDIR = /dev/null
 # You SHOULD specify the value of this variable when running the `install`
 # target.
 #
-# Whenever possible, you SHOULD not use well-known ports in order to limit the
+# Whenever possible, you SHOULD NOT use well-known ports in order to limit the
 # number of connections from software that look for vulnerable servers.
 RSYNC_PORT = 22
 
