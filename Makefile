@@ -34,6 +34,10 @@ COMPOSE_RUNNER = ./compose
 # Absolute path to the directory in the host where to put GnuPG data.
 #
 # You MUST specify the value of this variable when running the `install` target.
+#
+# Note: Remember that macros are a literal substitution mechanism, so you may
+# need to escape the path twice in the `make` command line.
+# Example: `make GNUPG_HOMEDIR=\''/a/b c/d'\' …` for the path `/a/b c/d`
 GNUPG_HOMEDIR = /dev/null
 
 # Port of the rsync sever on the host.
