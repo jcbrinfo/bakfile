@@ -5,7 +5,6 @@
 version: '2'
 services:
     users:
-        container_name: tk.bakfile_users
         image: tk.bakfile_users
         build: ./tk.bakfile_users
         volumes:
