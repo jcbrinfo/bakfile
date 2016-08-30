@@ -32,7 +32,7 @@ services:
             - users
         volumes:
             - home:/home
-            - duplicity.cache:/root/.duplicity
+            - duplicity.cache:/root/.cache/duplicity
     gpg:
         build: ./tk.bakfile_gpg
         depends_on:
@@ -46,7 +46,7 @@ services:
             - users
         volumes:
             - home:/home
-            - duplicity.cache:/root/.duplicity
+            - duplicity.cache:/root/.cache/duplicity
             - ../bak:/bak
         command: [/bin/tar]
 volumes:

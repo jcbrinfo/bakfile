@@ -87,7 +87,7 @@ this repository is to make the following tasks easier:
 
 * `home` (`/home`): User’s files, including authentication keys (as usual).
 
-* `duplicity.cache` (`/root/.duplicity`): Duplicity’s cache.
+* `duplicity.cache` (`/root/.cache/duplicity`): Duplicity’s cache.
 
 * Anonymous volume for `/root/.gnupg`: Files for GnuPG. Mapped to an host’s
   directory while following the instructions in the “How to launch a Duplicity
@@ -264,8 +264,8 @@ If you want to add or remove users while keeping data held by
    images” section.
 
 7. Run `make import`. This restores the content of the `home` (`/home`) and
-   `duplicity.cache` (`/root/.duplicity`) volumes from the `bak/volumes.tar`
-   archive.
+   `duplicity.cache` (`/root/.cache/duplicity`) volumes from the
+   `bak/volumes.tar` archive.
 
 8. For each user to remove, delete its “home” directory from `/home` using
    a shell as described in the “How to open a shell in the `/home` volume”
