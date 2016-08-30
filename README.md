@@ -333,6 +333,11 @@ see the `*clean` and `clean-*` targets of the `Makefile`.
 To delete the Docker containers, images and volumes, see the `uninstall` and
 `purge` targets of the `Makefile`.
 
+**Note:** During the uninstallation, Docker Compose will raise errors for not
+found images. It is normal: the `tk.bakfile_users` image is directly used by
+multiple services, so Docker Compose tries to delete the same image multiple
+times.
+
 
 ## TODO
 
