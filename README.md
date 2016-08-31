@@ -151,6 +151,9 @@ server.
    Bakfile’s images depend) to be upgraded before rebuilding the Bakfile’s
    images.
 
+   **Note:** If you want to change a value specified to `make … install`, you
+   must run `make clean` before invoking `make … install` again.
+
 The last step will also generate a POSIX shell script named `./compose`. This
 script is a wrapper around Docker Compose that sets the values of the `-f` and
 `-p` options for this project so you do not have to specify them yourself when
