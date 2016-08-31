@@ -32,6 +32,7 @@ services:
             - users
         volumes:
             - home:/home
+            - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
             - duplicity.cache:/root/.cache/duplicity
         # Do nothing by default so `gpg` can depend on this service.
         command: [--version]
@@ -40,8 +41,8 @@ services:
         depends_on:
             - duplicity
         volumes:
-            - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
             - home:/home
+            - "${BAKFILE_GNUPG_HOMEDIR}:/root/.gnupg"
     tar:
         image: tk.bakfile_users
         depends_on:
