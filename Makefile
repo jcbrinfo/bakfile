@@ -20,9 +20,14 @@ bakdir = ./bak
 PROJECT_NAME = tk.bakfile
 
 USERS_SERVICE = users
+USERS_IMAGE = $(PROJECT_NAME)_$(USERS_SERVICE)
 SHELL_SERVICE = bash
 RSYNC_SERVICE = rsync
 TAR_SERVICE = tar
+
+# The base image specified in `./src/tk.bakfile_users/Dockerfile`
+DEBIAN_IMAGE = "$$(sed -nE -e 's/^FROM[[:blank:]]*([^[:space:]]*)$$/\1/p' -- \
+	$(srcdir)/$(USERS_IMAGE)/Dockerfile)"
 
 # Path to the Docker Compose configuration.
 COMPOSE_FILE = $(srcdir)/docker-compose.yml
@@ -100,7 +105,7 @@ install: all
 # Upgrades `debian:jessie`, then rebuilds the images.
 .PHONY: upgrade
 upgrade: all
-	$(DOCKER) pull debian:jessie
+	$(DOCKER) pull $(DEBIAN_IMAGE)
 	$(COMPOSE_RUNNER) build
 
 # Removes any files that is not part of the distributed source code.
