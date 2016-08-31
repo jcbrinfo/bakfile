@@ -19,5 +19,3 @@ RUN mkdir -p -m 700 -- \
 	&& addgroup --gid 1000 rsync-users \
 	&& bash /root/bin/add-rsync-users.sh \
 	&& sh   /root/bin/register-ssh-keys.sh
-
-CMD ["/bin/true"]
