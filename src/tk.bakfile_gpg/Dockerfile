@@ -5,6 +5,4 @@
 FROM tk.bakfile_duplicity
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
-RUN apt-get update && apt-get install -y gnupg2
-
-ENTRYPOINT ["/usr/bin/gpg2"]
+ENTRYPOINT ["/usr/bin/gpg"]
