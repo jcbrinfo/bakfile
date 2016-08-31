@@ -192,11 +192,11 @@ where to put GnuPG data.
 1. Ensure that `<.gnupg>` has `root:root` as the ownership and `0700` (“only the
    owner has rights”) as the permissions.
 
-2. If not already done, generate an encryption key by running
+2. If not already done, generate a signing and an encryption key by running
    `./compose run --rm gpg --gen-key`.
 
-   **Note:** If you forget the ID of the generated key, you may look for it by
-   running
+   **Note:** If you forget the ID of the generated keys, you may look for them
+   by running
    `./compose run --rm gpg --list-keys`.
 
 3. Run `./compose run --rm duplicity <args...>`,
@@ -205,13 +205,14 @@ where to put GnuPG data.
    Example:
 
    ```
-   ./compose pause rsync && \
+   ./compose pause rsync
    ./compose run --rm duplicity \
-       --full-if-older-than 1M --encrypt-sign-key ABCD1234 --progress /home \
-       copy://user@example.com@copy.com/home-backup && \
-   ./compose run --rm duplicity \
-       remove-all-but-n-full 2 --force --encrypt-sign-key ABCD1234 \
-       copy://user@example.com@copy.com/home-backup && \
+       --full-if-older-than 1M --sign-key ABCD1234 --encrypt-key DCBA4321 \
+       --progress -- /home \
+       copy://user@mail.example.com@copy.com/bakfile-home
+   ./compose run --rm duplicity remove-all-but-n-full 2 \
+       --force --sign-key ABCD1234 --encrypt-key DCBA432 -- \
+       copy://user@mail.example.com@copy.com/bakfile-home
    ./compose unpause rsync
    ```
 
