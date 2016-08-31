@@ -337,8 +337,3 @@ To delete the Docker containers, images and volumes, see the `uninstall` and
 found images. It is normal: the `tk.bakfile_users` image is directly used by
 multiple services, so Docker Compose tries to delete the same image multiple
 times.
-
-
-## TODO
-
-* Explain how to upgrade the images.
