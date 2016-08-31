@@ -288,7 +288,7 @@ all volumes (such as `/home`) as-is.
 
 1. Make sure the content of `src/tk.backfile_users/root/rsync-users`,
    `src/tk.backfile_users/root/ssh-auth-keys/` and `compose` is the same as it
-   was during the last install/build (the last invokation of `make… install` or
+   was during the last install/build (the last invocation of `make… install` or
    `make upgrade`). This ensures that the same settings and user list will be
    reapplied during the rebuild.
 
