@@ -4,7 +4,7 @@
 # file server must inherit of this service so UIDs and GIDs will be correctly
 # set.
 
-FROM debian:jessie
+FROM debian:stretch
 MAINTAINER jcbrinfo <jcbrinfo@users.noreply.github.com>
 
 COPY root /root/
