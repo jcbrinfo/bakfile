@@ -215,18 +215,6 @@ where to put GnuPG data.
    ./compose unpause rsync
    ```
 
-When backuping the GnuPG data, only the following files are important:
-
-* `<.gnupg>/secring.gpg`
-* `<.gnupg>/pubring.gpg`
-* `<.gnupg>/trustdb.gpg`
-
-All other files of `<.gnupg>` consist in lock files and caches.
-
-**Note:** For the last one, only data exported by a
-`gpg --homedir <.gnupg> --export-ownertrust` command is important.
-For details, see `man gpg`.
-
 
 ## How to open a shell in the `/home` volume
 
