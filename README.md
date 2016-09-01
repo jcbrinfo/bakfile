@@ -12,6 +12,37 @@ this repository is to make the following tasks easier:
   Compose).
 
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+## Table of content
+
+- [1. Requirements (what you will need)](#1-requirements-what-you-will-need)
+- [2. What we have here](#2-what-we-have-here)
+  - [2.1. Files (what is in the project directory)](#21-files-what-is-in-the-project-directory)
+  - [2.2. Services](#22-services)
+  - [2.3. Volumes](#23-volumes)
+- [3. Things to consider before the installation](#3-things-to-consider-before-the-installation)
+  - [3.1. If you do not use `sudo`](#31-if-you-do-not-use-sudo)
+  - [3.2. Setup a firewall](#32-setup-a-firewall)
+    - [3.2.1. How to setup ufw/gufw](#321-how-to-setup-ufwgufw)
+- [4. Installation](#4-installation)
+  - [4.1. How to install/build](#41-how-to-installbuild)
+  - [4.2. How to test the SSH configuration](#42-how-to-test-the-ssh-configuration)
+- [5. Usage and debugging](#5-usage-and-debugging)
+  - [5.1. How to start the rsync/ssh server](#51-how-to-start-the-rsyncssh-server)
+  - [5.2. How to launch a Duplicity backup](#52-how-to-launch-a-duplicity-backup)
+  - [5.3. How to open a shell in the `/home` volume](#53-how-to-open-a-shell-in-the-home-volume)
+- [6. Upgrades and user management](#6-upgrades-and-user-management)
+  - [6.1. How to upgrade the images (including their dependencies)](#61-how-to-upgrade-the-images-including-their-dependencies)
+  - [6.2. How to upgrade the user list](#62-how-to-upgrade-the-user-list)
+  - [6.3. How to change ownership in batch](#63-how-to-change-ownership-in-batch)
+- [7. Uninstallation and cleaning](#7-uninstallation-and-cleaning)
+  - [7.1. How to uninstall](#71-how-to-uninstall)
+  - [7.2. How to clean the project directory](#72-how-to-clean-the-project-directory)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 ## 1. Requirements (what you will need)
 
 * A POSIX system (Linux, OS X, Cygwin, Linux Subsystem for Windows…)
