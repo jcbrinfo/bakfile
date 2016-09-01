@@ -251,8 +251,8 @@ where to put GnuPG data.
    ```
    ./compose pause rsync
    ./compose run --rm duplicity \
-       --full-if-older-than 1M --sign-key ABCD1234 --encrypt-key DCBA4321 \
-       --progress -- /home \
+       --full-if-older-than 1M --sign-key ABCD1234 --encrypt-key DCBA4321 -- \
+       /home \
        copy://user@mail.example.com@copy.com/bakfile-home
    ./compose run --rm duplicity remove-all-but-n-full 2 \
        --force --sign-key ABCD1234 --encrypt-key DCBA432 -- \
