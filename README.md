@@ -285,8 +285,8 @@ all volumes (such as `/home`) as-is.
 
 ### 6.2. How to upgrade the user list
 
-If you want to add or remove users while keeping data held by
-`tk.bakfile_data`, do the following:
+If you want to add or remove users while keeping data held by the `home` volume,
+do the following:
 
 1. Edit the `src/tk.backfile_users/root/ssh-users` file to reflect the desired
    user list and UIDs. For details, see the “2.1. Files” section.
