@@ -301,7 +301,7 @@ do the following:
    batch” section bellow.
 
    **Note:** Whenever possible, you should avoid re-using the names or UIDs of
-   the deleted users. Better be safe than sorry. :)
+   the deleted users. Better be safe than sorry. 😊
 
 2. Ensure that the `src/tk.backfile_users/root/ssh-auth-keys` directory contains
    the authentication keys of the desired users and does not contain any file
