@@ -1,6 +1,6 @@
 # Bakfile: A Private File Server
 
-[![Download latest release](https://img.shields.io/github/release/jcbrinfo/bakfile.svg?maxAge=2592000)](https://github.com/jcbrinfo/bakfile/releases)
+[![Download latest release](https://img.shields.io/github/release/jcbrinfo/bakfile.svg)](https://github.com/jcbrinfo/bakfile/releases)
 
 This repository permits to build Docker images for a secure rsync server and
 related utilities. Users are authenticated using SSH public keys. The goal of
