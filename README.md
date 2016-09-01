@@ -28,7 +28,7 @@ this repository is to make the following tasks easier:
 * When upgrading the server or the user list, enough space in the `bak`
   sub-directory of the project directory (this directory) to hold a
   copy of the `home` and `duplicity.cache` volumes. For details, see the
-  “Volumes” section.
+  “2.3. Volumes” section.
 
 
 ## 2. What we have here
@@ -97,8 +97,8 @@ this repository is to make the following tasks easier:
 * `duplicity.cache` (`/root/.cache/duplicity`): Duplicity’s cache.
 
 * Anonymous volume for `/root/.gnupg`: Files for GnuPG. Mapped to an host’s
-  directory while following the instructions in the “How to launch a Duplicity
-  backup” section.
+  directory while following the instructions in the “5.2. How to launch a
+  Duplicity backup” section.
 
 
 ## 3. Things to consider before the installation
@@ -147,7 +147,7 @@ server.
 ### 4.1. How to install/build
 
 1. Fill `src/tk.backfile_users/root/rsync-users` and
-   `src/tk.backfile_users/root/ssh-auth-keys/` as explained in the “Files”
+   `src/tk.backfile_users/root/ssh-auth-keys/` as explained in the “2.1. Files”
    section.
 
 2. Run `make GNUPG_HOMEDIR=<.gnupg> RSYNC_PORT=<host port> install`,
@@ -256,7 +256,7 @@ If you want to add or remove users while keeping data held by
 `tk.bakfile_data`, do the following:
 
 1. Edit the `src/tk.backfile_users/root/ssh-users` file to reflect the desired
-   user list and UIDs. For details, see the “Files” section.
+   user list and UIDs. For details, see the “2.1. Files” section.
 
    **Note:** During the following steps, `tar` will be used to export and
    reimport the `/home` volume. To restore ownership, it will try to match user
@@ -264,16 +264,16 @@ If you want to add or remove users while keeping data held by
    information, see documentation of the `--numeric-owner` option of GNU Tar and
    [http://serverfault.com/a/445504](http://serverfault.com/a/445504). This
    means you should not change existing names and IDs. If you do and `tar` does
-   not restore ownership correctly, see the “How to change ownership in batch”
-   subsection bellow.
+   not restore ownership correctly, see the “6.3. How to change ownership in
+   batch” section bellow.
 
    **Note:** Whenever possible, you should avoid re-using the names or UIDs of
    the deleted users. Better be safe than sorry. :)
 
 2. Ensure that the `src/tk.backfile_users/root/ssh-auth-keys` directory contains
    the authentication keys of the desired users and does not contain any file
-   associated to the users that will be removed. For details, see the “Files”
-   section.
+   associated to the users that will be removed. For details, see the “2.1.
+   Files” section.
 
 3. Stop (but do not remove yet) Bakfile’s containers by invoking
    `./compose stop`.
@@ -286,20 +286,20 @@ If you want to add or remove users while keeping data held by
    **WARNING:** This will delete the `/home` volume. So, again, you should be
    sure that you did the previous step correctly before doing this.
 
-6. Build the images as described in the second step of the “How to build the
-   images” section.
+6. Build the images as described in the second step of the “4.1. How to
+   install/build” section.
 
 7. Run `make import`. This restores the content of the `home` (`/home`) and
    `duplicity.cache` (`/root/.cache/duplicity`) volumes from the
    `bak/volumes.tar` archive.
 
 8. For each user to remove, delete its “home” directory from `/home` using
-   a shell as described in the “How to open a shell in the `/home` volume”
+   a shell as described in the “5.3. How to open a shell in the `/home` volume”
    section.
 
 9. Check ownership of the imported files  by using the `tk.bakfile_data`’s
-   shell. For details, see the “How to open a shell in the `/home` volume”
-   section. If you get files associated to the wrong user, see the “How to
+   shell. For details, see the “5.3. How to open a shell in the `/home` volume”
+   section. If you get files associated to the wrong user, see the “6.3. How to
    change owners in batch” subsection bellow.
 
 10. If everything is OK, you may run `make clean-bak` to delete everything in
@@ -314,8 +314,8 @@ another, here is a way to do it:
 **WARNING:** Some files in `/home` come from the `users` image. You should not
 edit the ownership of these files.
 
-1. Follow the procedure described in the “How to open a shell in the `/home`
-   volume” section.
+1. Follow the procedure described in the “5.3. How to open a shell in the
+   `/home` volume” section.
 
 2. Run `chown -R --from=<old owner>:<old group> <new owner>:<new group> -- <files…>`,
    replacing `<old owner>`, `<old group>`, `<new owner>` and `<new group>` by
